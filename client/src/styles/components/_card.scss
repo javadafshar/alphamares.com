@@ -1,0 +1,407 @@
+.card {
+  transition: all 0.25s linear;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+  border-radius: $card-border-radius;
+
+  margin: 1%;
+  margin-top: 70px;
+  max-width: calc(min(25%, 400px));
+  min-width: calc(min(25%, 400px));
+  position: relative;
+
+  @media screen and(max-width: $size-mobile) {
+    max-width: calc(min(80%, 400px));
+    margin: 0 auto 50px auto;
+  }
+
+  @media screen and(min-width: $size-mobile) and (max-width: 1100px) {
+    max-width: calc(min(80%, 380px));
+    margin: 0 auto 50px auto;
+  }
+  #auctionid {
+    font-size: calc(0.8rem + 1vw);
+    line-height: calc(1.2rem + 1vw);
+    font-weight: $weight-bold;
+    margin: -5px 0 0 0;
+    background-color: #0c3c3c !important;
+    //  margin-left: 1rem;
+    margin-bottom: 1vh;
+    color: white;
+    filter: drop-shadow(1px 1px 2px #000000);
+  }
+  .MuiPaper-root {
+    height: 100%;
+    margin: 0;
+    border-radius: $card-border-radius;
+    width: 100%;
+   // border: 1px solid #efb442;
+    filter: drop-shadow(5px 5px 10px #000000);
+   
+    .parents-or-name {
+      text-transform: capitalize;
+      width: 100%;
+      background-color: $color-4;
+      color: white;
+      font-size: calc(0.6rem + 1vh);
+      line-height: 1.8vw;
+      justify-content: center;
+      display: inline-flex;
+
+      @media screen and(max-width: $size-mobile) {
+        //font-size: 1.8vh;
+        line-height: 3vh;
+      }
+
+      p {
+        //width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+    }
+
+    .MuiCardContent-root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 10vh;
+
+      h1,
+      h2,
+      h3 {
+        color: black;
+        margin: 1vh 0;
+        font-family: math;
+      }
+
+      h1 {
+        font-size: calc(0.8rem + 1vw);
+        line-height: calc(1rem + 1vw);
+        font-weight: 800;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+
+        @media screen and(max-width: $size-mobile) {
+          font-size: calc(0.5rem + 2vh);
+          line-height: calc(1rem + 2.3vh);
+        }
+      }
+
+      .vs {
+        text-transform: uppercase;
+        font-size: calc(0.6rem + .5vh);
+        .xLot {
+          font-size: calc(0.5rem + 1vh);
+          line-height: calc(1rem + 1vh);
+        }
+        @media screen and(max-width: $size-mobile) {
+          font-size: calc(0.5rem + 1vh);
+        }
+      }
+      :nth-child(5) {
+        @media screen and (min-width: 900px) {
+          font-size: calc(0.5rem + 1vw);
+        }
+        @media screen and (max-width: 700px) {
+          font-size: calc(0.5rem + 1.5vw);
+        }
+      }
+
+      .content-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 7% 5%;
+
+        .title-auction-card {
+          font-size: calc(0.8rem + 1vw);
+          line-height: calc(2rem + 1vw);
+          font-weight: $weight-bold;
+          margin: 0;
+          background-color: #0c3c3c !important;
+          //  margin-left: 1rem;
+          margin-bottom: 1vh;
+
+          @media screen and(max-width: $size-mobile) {
+            font-size: calc(0.8rem + 2vh);
+            line-height: calc(1rem + 2.3vh);
+            background-color: #0c3c3c !important;
+          }
+        }
+
+        .sub-title {
+          color: black;
+          text-align: center;
+          font-size: calc(0.5rem + 0.7vw);
+          margin-bottom: 1vh;
+
+          @media screen and(max-width: $size-mobile) {
+            font-size: calc(0.8rem + 1vh);
+            line-height: calc(1rem + 1.3vh);
+          }
+        }
+      }
+
+      hr {
+        margin: 2vh 0;
+        width: 80%;
+        text-align: center;
+        height: 2px;
+        border: none;
+        background: linear-gradient(
+          to right,
+          white,
+          rgba(22, 20, 20, 0.836),
+          rgba(255, 255, 255, 0)
+        );
+      }
+      .h3t{
+        font-weight: bold;
+      }
+      .hr2 {
+        margin: 2vh 0;
+         width: 80%;
+        text-align: center;
+        height: 2px;
+        border: none;
+        background: linear-gradient(
+          to right,
+          white,
+          rgba(22, 20, 20, 0.836),
+          rgba(255, 255, 255, 0)
+        );
+      //  width: 100%;
+      }
+
+      .chrono-price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 5%;
+
+        h1 {
+          width: 100%;
+          font-size: calc(0.4rem + 1vw);
+          line-height: calc(1rem + 1.3vw);
+
+          @media screen and(max-width: $size-mobile) {
+            font-size: calc(0.8rem + 1vh);
+            line-height: calc(1rem + 2.3vh);
+            width: 100%;
+          }
+        }
+        .price {
+          margin-right: -10%;
+        }
+        .sep {
+          margin-right: -60px;
+        }
+      }
+    }
+
+    .Action {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 8vh;
+      transition: 0.3s;
+      font-size: calc(1rem + 0.7vw);
+
+      .open,
+      .closed,
+      .coming {
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        border-radius: 0 0 $card-border-radius $card-border-radius;
+
+        h1 {
+          max-width: 90%;
+          font-size: calc(1rem + 0.7vw);
+
+          @media screen and(max-width: $size-mobile) {
+            font-size: calc(1rem + 2vw);
+          }
+        }
+
+        &:hover {
+          color: rgb(255, 153, 0);
+          //font-size: 1.15rem;
+        }
+      }
+
+      .open {
+        background-color: $color-2;
+
+        .holder {
+          font-size: calc(1rem + 0.7vw);
+
+          @media screen and(max-width: $size-mobile) {
+            font-size: calc(1rem + 1vh);
+          }
+        }
+
+        &:hover {
+          background: $color-1;
+        }
+      }
+
+      .closed {
+        background-color: gray;
+
+        h1 {
+          font-family: fantasy;
+          font-size: larger;
+          color: #051717;
+        }
+        .you-won {
+          color: $color-1;
+          font-size: 1.5rem;
+        }
+      }
+
+      .coming {
+        background-color: white;
+        padding-bottom: 5%;
+
+        h1 {
+          color: red;
+        }
+      }
+    }
+  }
+  .lot-title{
+    line-height: 1rem;
+    font-size: 1.4rem;
+  }
+  a {
+    color: black;
+  }
+
+  .MuiCardMedia-root {
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      width: 100%;
+      //  max-height: 200px;
+      min-height: 17rem;
+      // border-radius: 20px;
+     // border: 2px solid #efc16d;
+      // object-fit: cover;
+    }
+
+    .follow {
+      margin-left: auto;
+      position: absolute;
+      width: 100%;
+      height: 50px;
+      bottom: 10px;
+      display: flex;
+      justify-content: flex-end;
+
+      .container {
+        display: flex;
+        justify-content: flex-end;
+        color: $color-1;
+        height: 100%;
+        width: 50px;
+
+        .full {
+          display: none;
+        }
+
+        &:hover {
+          .border {
+            display: none;
+          }
+
+          .full {
+            display: block;
+          }
+        }
+
+        .MuiSvgIcon-root {
+          width: 40px;
+          height: 40px;
+          background-color: $color-4;
+          border-radius: 50% 0 0 50%;
+          color: $color-1;
+          padding: 5px;
+        }
+      }
+    }
+
+    .split-image-container {
+      width: calc(100% + 1px);
+      display: flex;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+
+      .left {
+        width: 70%;
+      }
+
+      .right {
+        width: 70%;
+        position: absolute;
+        top: -1px;
+        right: 0;
+        // -webkit-clip-path: polygon(100% 0%, 58% 0%, 0% 100%, 100% 100%);
+        clip-path: polygon(58% 0%, 100% 0%, 100% 100%, 0% 100%);
+        height: calc(100% + 2px);
+      }
+
+      .border {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 100%;
+        height: calc(100% + 2px);
+        background-color: $color-4;
+        -webkit-clip-path: polygon(69% 0, 71% 0, 31% 100%, 29% 100%);
+        clip-path: polygon(69% 0, 71% 0, 31% 100%, 29% 100%);
+      }
+    }
+  }
+
+  &:hover {
+    box-shadow: -1px 10px 29px 0px rgba(0, 0, 0, 0.8);
+    transform: translate(1px, -5px);
+  }
+
+  .info {
+    position: absolute;
+    transform: translate(0, -150%);
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 1vw;
+    align-items: center;
+  }
+}
+
+.xLot {
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+  margin: 0 5px;
+}
+
+.title-page {
+  padding: 6vh;
+}
+
+.ttt {
+  font-size: x-large;
+}

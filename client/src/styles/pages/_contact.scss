@@ -1,0 +1,139 @@
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  .Owner {
+    font-weight: bold;
+    /*  letter-spacing: 3px; */
+    font-size: 25px;
+    font-weight: bold;
+    background-image: linear-gradient(
+      to right,
+      #f6e27a 0,
+      #efb442,
+      #f6e27a 45%,
+      #f6f2c0 50%,
+      #f6e27a 55%,
+      #f6e27a 78%,
+ 
+    );
+    color: transparent;
+    -webkit-background-clip: text;
+  }
+  .row {
+    display: flex;
+
+    img {
+      width: 40%;
+      height: auto;
+      object-fit: cover;
+      filter: drop-shadow(5px 5px 10px #000000);
+      border-radius: 10%;
+    }
+.horse{
+  border: 1.5px solid #efb442;
+ 
+  filter: drop-shadow(5px 5px 10px #000000);
+  border-radius: 10%;
+}
+    @media screen and(max-width: $size-mobile) {
+      display: block;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .contact-info {
+      margin: 0;
+      display: block;
+      padding: 0 5%;
+
+      @media screen and(max-width: $size-mobile) {
+        padding: 5% 0;
+      }
+
+      p {
+        font-size: calc(0.5rem + 1vw);
+        line-height: calc(0.5rem + 1vw);
+
+        @media screen and(max-width: $size-mobile) {
+          font-size: calc(1rem + 1vw);
+          line-height: calc(1rem + 1vw);
+        }
+      }
+
+      img {
+        width: 5vw;
+
+        @media screen and(max-width: $size-mobile) {
+          width: 8vw;
+        }
+
+        height: auto;
+        object-fit: cover;
+      }
+
+      .details {
+        display: flex;
+        align-items: center;
+        gap: 5%;
+        white-space: nowrap;
+      }
+    }
+  }
+.none{
+  border: 1.5px solid #efb442 ;
+}
+  h2 {
+    font-size: calc(1rem + 2vw);
+    line-height: calc(1rem + 2vw);
+
+    @media screen and(max-width: $size-mobile) {
+      font-size: calc(1.5rem + 2vw);
+      line-height: calc(1.5rem + 2vw);
+    }
+  }
+
+  a {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5%;
+
+    font-size: calc(0.5rem + 1vw);
+    line-height: calc(0.5rem + 1vw);
+
+    @media screen and(max-width: $size-mobile) {
+      font-size: calc(1rem + 1vw);
+      line-height: calc(1rem + 1vw);
+    }
+
+    img {
+      width: 5vw;
+    }
+
+    @media screen and(max-width: $size-mobile) {
+      img {
+        width: 15vw;
+      }
+    }
+  }
+
+  .social {
+    margin: 5% 0 0 0;
+    text-align: start;
+
+    .social-container {
+      display: flex;
+      gap: 10%;
+      margin: 5%;
+      justify-content: center;
+
+      @media screen and(max-width: $size-mobile) {
+        display: block;
+      }
+    }
+  }
+}

@@ -1,0 +1,206 @@
+.create-post-dialog {
+    .MuiDialog-container {
+        width: 100%;
+        .MuiPaper-root {
+            width: 80%;
+            margin: 0;
+            max-width: 98%;
+
+            .form-container {
+                padding: 2vw 5vw;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 20px;
+
+                hr{
+                    background: none;
+                    background-color: #ccc;
+                    height: 1px;
+                    width: 5px;
+                    margin: auto;
+                }
+
+                .field {
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: flex-end;
+
+                    label {
+                        // font-weight: bold;
+                        font-size: 1.5em;
+                        margin-inline: 10px;
+                        white-space: nowrap;
+                    }
+
+                    img {
+                        margin-left: 20px;
+                        height: 1.5em;
+                    }
+
+                    input[type=text] {
+                        border-bottom: 1px solid gray;
+                        border-radius: 0;
+                        transition: 0.2 linear;
+                        padding: 0;
+                        font-weight: bold;
+
+                        &:hover {
+                            border-bottom: 2px solid gray;
+
+                        }
+
+                        &:focus {
+                            border-bottom: 2px solid $color-4;
+                        }
+                    }
+
+                    input[type=file] {
+                        padding: 0;
+                        border-radius: 0;
+                    }
+
+                    textarea {
+                        background-color: rgba(128, 128, 128, 0.185);
+                        padding: 20px;
+
+                        &:focus {
+                            background-color: white;
+                            border: 0.1px solid gray;
+                        }
+                    }
+
+
+
+                }
+
+                .preview-editor {
+                    display: flex;
+                    gap: 1%;
+
+                    u {
+                        text-decoration: underline;
+                    }
+
+                    s {
+                        text-decoration: line-through;
+                    }
+
+                    // .preview-container,
+                    .quill {
+                        flex: 1;
+                    }
+
+                    // .preview-title {
+                    //     height: 40px;
+                    //     text-align: center;
+                    //     font-size: 1.5rem;
+                    // }
+
+                    // .preview {
+                    //     border: 1px solid #ccc;
+                    //     padding: 1vw;
+
+                    //     .ql-align-center {
+                    //         text-align: center;
+                    //     }
+
+                    //     .ql-align-right {
+                    //         text-align: right;
+                    //     }
+
+                    //     .ql-align-justify {
+                    //         text-align: justify;
+                    //     }
+
+                        
+                    // }
+
+                    .quill {
+                        margin-bottom: 40px;
+
+                        .ql-picker-label::before {
+                            content: [data-value]
+                        }
+
+                        .ql-picker-item[data-value=arial], .ql-picker-label[data-value=arial] {
+                            &:before {
+                                font-family: Arial;
+                                content: 'Arial';
+                            }
+                        }
+
+                        .ql-picker-item[data-value=georgia], .ql-picker-label[data-value=georgia]{
+                            &:before {
+                                font-family: Georgia;
+                                content: 'Georgia';
+                            }
+                        }
+
+                        .ql-picker-item[data-value=helvetica], .ql-picker-label[data-value=helvetica]{
+                            &:before {
+                                font-family: Helvetica;
+                                content: 'Helvetica';
+                            }
+                        }
+
+                        .ql-picker-item[data-value="times-new-roman"]{
+                            &:before {
+                                font-family: 'Times New Roman';
+                                content: 'Times New Roman';
+                            }
+                        }
+
+                        .ql-picker-label[data-value="times-new-roman"]{
+                            &:before {
+                                font-family: 'Times New Roman';
+                                content: 'Times NR';
+                            }
+                        }
+
+                        .ql-picker-item[data-value=arapey], .ql-picker-label[data-value=arapey]{
+                            &:before {
+                                font-family: $font-2;
+                                content: 'Arapey';
+                            }
+                        }
+
+                        .ql-container {
+                            // min-height: 200px;
+                            font-family: $font-2;
+                            font-size: 1em;
+                            .ql-editor {
+                                padding: 1vw;
+
+                                .ql-font-arial {
+                                    font-family: Arial;
+                                }
+
+                                .ql-font-georgia {
+                                    font-family: Georgia;
+                                }
+
+                                .ql-font-helvetica {
+                                    font-family: Helvetica;
+                                }
+
+                                .ql-font-times-new-roman {
+                                    font-family: Times New Roman;
+                                }
+                                .ql-font-arapey {
+                                    font-family: $font-2;
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                button {
+                    margin: auto;
+                }
+            }
+        }
+    }
+
+}
