@@ -6,26 +6,26 @@ import moment from "moment";
 import { NavLink } from "react-router-dom";
 import { CheckCircle, Cancel } from "@mui/icons-material"; // Import Material-UI icons
 import i18next from "i18next";
-import io from 'socket.io-client';
-
+import io from "socket.io-client";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
-const fetchLots = async (setLots) => {
+const fetchData = async (setLots, setBids) => {
   try {
     const lotData = await axios.get(`${process.env.REACT_APP_API_URL}api/lot`);
     setLots(lotData.data);
+    const bidData = await axios.get(`${process.env.REACT_APP_API_URL}api/bid`);
+    setBids(bidData.data);
   } catch (error) {
-    console.error("Error fetching lots:", error);
+    console.error("Error fetching data:", error);
   }
 };
 
-
 export default function BidCard(props) {
-  const bids = props.bids;
   const loggedInUserId = useSelector((state) => state.userReducer._id);
   const [userBids, setUserBids] = useState([]);
   const [lots, setLots] = useState([]);
+  const [bids, setBids] = useState([]);
   const [selectedBid, setSelectedBid] = useState("");
 
   useEffect(() => {
@@ -33,24 +33,23 @@ export default function BidCard(props) {
   }, [bids, loggedInUserId]);
 
   useEffect(() => {
-    fetchLots(setLots); 
+    fetchData(setLots, setBids);
   }, []);
 
   useEffect(() => {
-    const handleDataSaved = () => {
-      fetchLots(setLots); // Fetch lots to refresh data
+    const handleBidReceived = () => {
+      fetchData(setLots, setBids); // Fetch lots and bids to refresh data
     };
 
-    // Listen for 'dataSaved' event from server
-    socket.on('dataSaved', () => {
-      console.log('Received dataSaved event from server');
-      handleDataSaved();
+    // Listen for 'bidReceived' event from server
+    socket.on("bidReceived", () => {
+      console.log("Received bidReceived event from server");
+      handleBidReceived();
     });
-    
 
     // Clean up function to remove event listener when component unmounts
     return () => {
-      socket.off('dataSaved', handleDataSaved);
+      socket.off("bidReceived", handleBidReceived);
     };
   }, []);
 

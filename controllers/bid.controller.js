@@ -1,5 +1,7 @@
 //const { io } = require('../server');  Import io instance
-const {io} = require ('../server')
+const {
+    io
+} = require('../server')
 const AuctionModel = require('../models/auction.model');
 const {
     BidModel
@@ -33,11 +35,13 @@ module.exports.createBid = async (req, res) => {
             await lot.save();
             await user.save();
 
-            io.emit('dataSaved'); // Emit the event
+
             res.status(201).json("Bid created");
         } catch (err) {
             console.log(err);
-            res.status(500).json({ message: err });
+            res.status(500).json({
+                message: err
+            });
         }
     }
 
@@ -59,7 +63,12 @@ module.exports.createBid = async (req, res) => {
     }
 
     try {
-        const { bidderId, lotId, auctionId, amount } = req.body;
+        const {
+            bidderId,
+            lotId,
+            auctionId,
+            amount
+        } = req.body;
         const user = await UserModel.findById(bidderId);
         const lot = await LotModel.findById(lotId);
         const auction = await AuctionModel.findById(auctionId);
@@ -83,7 +92,9 @@ module.exports.createBid = async (req, res) => {
         saveBid(user, lot, auction, req.body);
     } catch (err) {
         console.log(err);
-        res.status(500).send({ err });
+        res.status(500).send({
+            err
+        });
     }
 }
 
