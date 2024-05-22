@@ -27,6 +27,7 @@ export default function BidCard(props) {
   const [lots, setLots] = useState([]);
   const [bids, setBids] = useState([]);
   const [selectedBid, setSelectedBid] = useState("");
+  const [currentTime, setCurrentTime] = useState(moment());
 
   useEffect(() => {
     setUserBids(bids.filter((bid) => bid.bidderId === loggedInUserId));
@@ -53,8 +54,29 @@ export default function BidCard(props) {
     };
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(moment());
+    }, 1000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   const handleBidSelect = (event) => {
     setSelectedBid(event.target.value);
+  };
+
+  const calculateRemainingTime = (endTime) => {
+    const now = currentTime;
+    const end = moment(endTime);
+    const duration = moment.duration(end.diff(now));
+
+    if (duration.asSeconds() <= 0) {
+      return i18next.language === "fr-FR" ? "Terminé" : "Ended";
+    }
+
+    return `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
   };
 
   return (
@@ -85,7 +107,7 @@ export default function BidCard(props) {
                 borderBottom: "1px solid #ddd",
               }}
             >
-              {i18next.language === "fr-FR" ? "Titre" : "Title"}
+              {i18next.language === "fr-FR" ? "N°de Lot" : "Type"}
             </th>
             <th
               style={{
@@ -94,7 +116,7 @@ export default function BidCard(props) {
                 borderBottom: "1px solid #ddd",
               }}
             >
-              {i18next.language === "fr-FR" ? "Nb Enchérisseurs" : "Bidders"}
+              {i18next.language === "fr-FR" ? "Pedigree" : "Pedigree"}
             </th>
             <th
               style={{
@@ -103,7 +125,20 @@ export default function BidCard(props) {
                 borderBottom: "1px solid #ddd",
               }}
             >
-              {i18next.language === "fr-FR" ? "Enchère Max" : "Max Bid"}
+              {i18next.language === "fr-FR"
+                ? "Temps restant"
+                : "Remaining time"}
+            </th>
+            <th
+              style={{
+                textAlign: "left",
+                padding: "8px",
+                borderBottom: "1px solid #ddd",
+              }}
+            >
+              {i18next.language === "fr-FR"
+                ? "Enchère actuelle"
+                : "Current highest bid"}
             </th>
             <th
               style={{
@@ -180,7 +215,7 @@ export default function BidCard(props) {
                       borderBottom: "1px solid #ddd",
                     }}
                   >
-                    <strong>{lot.title}</strong>
+                    <strong>{lot.type}</strong>
                   </td>
                   <td
                     style={{
@@ -189,7 +224,27 @@ export default function BidCard(props) {
                       borderBottom: "1px solid #ddd",
                     }}
                   >
-                    {bidderCount}
+                    {lot.pedigree.gen1.father}
+                    <br></br>
+                    <span
+                      style={{
+                        textAlign: "center",
+                        paddingLeft: "30%",
+                      }}
+                    >
+                      X
+                    </span>
+                    <br></br>
+                    {lot.pedigree.gen1.mother}
+                  </td>
+                  <td
+                    style={{
+                      textAlign: "left",
+                      padding: "8px",
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {lot.end ? calculateRemainingTime(lot.end) : "N/A"}
                   </td>
                   <td
                     style={{
@@ -205,16 +260,35 @@ export default function BidCard(props) {
                       textAlign: "left",
                       padding: "8px",
                       borderBottom: "1px solid #ddd",
-                      color: userTopBid === topBidAmount ? "green" : "red",
+                      /*       color: userTopBid === topBidAmount ? "green" : "red", */
+                      whiteSpace: "pre-wrap",
                     }}
                   >
                     {userTopBid ? (
                       <span>
                         {userTopBid} €
                         {userTopBid === topBidAmount ? (
-                          <CheckCircle sx={{ color: "green" }} />
+                          <>
+                            <span>&nbsp;&nbsp;&nbsp;</span>
+                            <CheckCircle
+                              sx={{
+                                color: "green",
+                                background: "white",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          </>
                         ) : (
-                          <Cancel sx={{ color: "red" }} />
+                          <>
+                            <span>&nbsp;&nbsp;&nbsp;</span>
+                            <Cancel
+                              sx={{
+                                color: "red",
+                                background: "white",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          </>
                         )}
                       </span>
                     ) : (
@@ -224,14 +298,14 @@ export default function BidCard(props) {
                     {userTopBid === topBidAmount ? (
                       <span>
                         {i18next.language === "fr-FR"
-                          ? "Votre offre est la plus élevée"
-                          : "Your offer is the highest"}
+                          ? "Vous ne tenez plus l’enchère"
+                          : "You are no longer the highest bidder"}
                       </span>
                     ) : (
                       <span>
                         {i18next.language === "fr-FR"
-                          ? "Votre offre n'est pas la plus élevée"
-                          : "Your offer is not the highest"}
+                          ? "Vous tenez l’enchère"
+                          : "You are the highest bidder"}
                       </span>
                     )}
                   </td>
