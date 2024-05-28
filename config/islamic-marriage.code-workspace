@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "islamic-marriage",
+			"path": "../../../islamic-marriage"
+		},
+		{
+			"name": "config",
+			"path": "."
+		}
+	],
+	"settings": {}
+}
