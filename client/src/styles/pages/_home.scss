@@ -30,22 +30,25 @@
 
   img {
     width: 70%;
-   
+
     border-radius: 5%;
     filter: drop-shadow(5px 5px 10px #000000);
     @media screen and(max-width: $size-mobile) {
       width: 90%;
     }
   }
-.none{
-  border: 1px solid #efb442
-}
+  .none {
+    border: 1px solid #efb442;
+  }
   hr {
     width: 50%;
     margin-block: 8vw;
     margin-top: -10px;
   }
-
+  .hrupbtn {
+    width: 50%;
+    margin: 40px;
+  }
   h1 {
     font-size: calc(1rem + 3vw);
     font-family: $font-1;

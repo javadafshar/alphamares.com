@@ -92,7 +92,7 @@ const Home = () => {
         <br />
         <h2 style={{ whiteSpace: "pre-wrap" }}>{t("Home.intro4")}</h2>
         {/*    <br /> */}
-        <hr />
+        <hr className="hrupbtn" />
         {/*  <br /> */}
 
         <div className="btn-and-images">
@@ -100,13 +100,13 @@ const Home = () => {
             <NavLink className="btn-Home" to="/buy">
               {t("Home.HowToBuy")}
             </NavLink>
-            <img className="none" src={clooney} alt="Clooney"  />
+            <img className="none" src={clooney} alt="Clooney" />
           </div>
           <div className="col">
             <NavLink className="btn-Home" to="/sell">
               {t("Home.HowToSell")}
             </NavLink>
-            <img src={killerQueen} alt="Killer Queen" className="none"/>
+            <img src={killerQueen} alt="Killer Queen" className="none" />
           </div>
         </div>
       </div>

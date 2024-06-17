@@ -34,9 +34,9 @@
     margin: 0;
     border-radius: $card-border-radius;
     width: 100%;
-   // border: 1px solid #efb442;
+    // border: 1px solid #efb442;
     filter: drop-shadow(5px 5px 10px #000000);
-   
+
     .parents-or-name {
       text-transform: capitalize;
       width: 100%;
@@ -93,7 +93,7 @@
 
       .vs {
         text-transform: uppercase;
-        font-size: calc(0.6rem + .5vh);
+        font-size: calc(0.6rem + 0.5vh);
         .xLot {
           font-size: calc(0.5rem + 1vh);
           line-height: calc(1rem + 1vh);
@@ -138,7 +138,7 @@
         .sub-title {
           color: black;
           text-align: center;
-          font-size: calc(0.5rem + 0.7vw);
+          font-size: calc(0.6rem + 1vw);
           margin-bottom: 1vh;
 
           @media screen and(max-width: $size-mobile) {
@@ -161,12 +161,12 @@
           rgba(255, 255, 255, 0)
         );
       }
-      .h3t{
+      .h3t {
         font-weight: bold;
       }
       .hr2 {
         margin: 2vh 0;
-         width: 80%;
+        width: 100%;
         text-align: center;
         height: 2px;
         border: none;
@@ -176,7 +176,7 @@
           rgba(22, 20, 20, 0.836),
           rgba(255, 255, 255, 0)
         );
-      //  width: 100%;
+        //  width: 100%;
       }
 
       .chrono-price {
@@ -185,15 +185,15 @@
         justify-content: center;
         width: 100%;
         gap: 5%;
-
+        text-align: center;
         h1 {
           width: 100%;
           font-size: calc(0.4rem + 1vw);
-          line-height: calc(1rem + 1.3vw);
+          // line-height: calc(1rem + 1.3vw);
 
           @media screen and(max-width: $size-mobile) {
-            font-size: calc(0.8rem + 1vh);
-            line-height: calc(1rem + 2.3vh);
+            font-size: calc(0.6rem + 1vh);
+            //  line-height: calc(1rem + 2.3vh);
             width: 100%;
           }
         }
@@ -279,8 +279,8 @@
       }
     }
   }
-  .lot-title{
-    line-height: 1rem;
+  .lot-title {
+    line-height: 2rem;
     font-size: 1.4rem;
   }
   a {
@@ -297,7 +297,7 @@
       //  max-height: 200px;
       min-height: 17rem;
       // border-radius: 20px;
-     // border: 2px solid #efc16d;
+      // border: 2px solid #efc16d;
       // object-fit: cover;
     }
 

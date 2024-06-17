@@ -20,6 +20,7 @@ import { isEmpty } from '../../utils/Utils';
 import ForgottenPassword from '../../components/Log/ForgottenPassword';
 import { ResetPassword } from '../../components/Log/ResetPassword';
 import { ScrollToTop } from '../Utils/ScrollToTop';
+import EditPost from '../../components/Post/EditPost';
 
 const Admin = lazy(() => import('../Admin'));
 const AuctionConfig = lazy(() => import('../../components/Admin/Auction/AuctionConfig'));
@@ -41,6 +42,8 @@ const Index = () => {
                         <Route path='/catalog' exact element={<Catalog />} />
                         <Route path='/profil' exact element={<SignUp />} />
                         <Route path='/notice' exact element={<LegalNotice />} />
+                        <Route path="/edit-post/:id" element={<EditPost />} />
+
 
                         {!isEmpty(userData) &&
                             <Route>

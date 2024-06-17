@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { TableRow, TableCell, Select, MenuItem, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import moment from "moment";
 import { NavLink } from "react-router-dom";
 import i18next from "i18next";
@@ -109,7 +109,7 @@ export default function BidCard(props) {
                     borderBottom: "2px solid #ddd",
                   }}
                 >
-                  {i18next.language === "fr-FR" ? "N° de Lot" : "Lot Number"}
+                  {i18next.language === "fr-FR" ? "N° du lot" : "Lot Number"}
                 </th>
                 <th
                   style={{
@@ -174,6 +174,7 @@ export default function BidCard(props) {
             <tbody>
               {lots
                 .filter((lot) => !lot.closed) // Filter out closed lots
+                .sort((a, b) => a.number - b.number) // Sort by lot number
                 .map((lot) => {
                   const lotBids = bids.filter((bid) => bid.lotId === lot._id);
                   const bidderCount = new Set(lotBids.map((b) => b.bidderId))
@@ -190,6 +191,8 @@ export default function BidCard(props) {
                       ? Math.max(...lotBids.map((bid) => bid.amount))
                       : null;
 
+                  const isAuctionEnded = moment(lot.end).isBefore(currentTime);
+
                   return (
                     <React.Fragment key={lot._id}>
                       <tr
@@ -203,7 +206,7 @@ export default function BidCard(props) {
                         <td
                           style={{
                             textAlign: "center",
-                            padding: "8px",
+                            padding: "5px",
                             borderBottom: "1px solid #ddd",
                           }}
                         >
@@ -278,17 +281,30 @@ export default function BidCard(props) {
                           <br />
                           <span
                             style={{
-                              color:
-                                userTopBid === topBidAmount ? "green" : "red",
+                              color: isAuctionEnded
+                                ? userTopBid === topBidAmount
+                                  ? "green"
+                                  : "red"
+                                : userTopBid === topBidAmount
+                                ? "green"
+                                : "red",
                             }}
                           >
-                            {userTopBid === topBidAmount
+                            {isAuctionEnded
+                              ? userTopBid === topBidAmount
+                                ? i18next.language === "fr-FR"
+                                  ? "vous avez gagné"
+                                  : "You won"
+                                : i18next.language === "fr-FR"
+                                ? "vous avez perdu"
+                                : "You lost"
+                              : userTopBid === topBidAmount
                               ? i18next.language === "fr-FR"
-                                ? "vous ne tenez plus l’enchère"
-                                : "You are no longer the highest bidder"
+                                ? "vous tenez l’enchère"
+                                : "You are the highest bidder"
                               : i18next.language === "fr-FR"
-                              ? "vous tenez l’enchère"
-                              : "You are the highest bidder"}
+                              ? "vous ne tenez plus l’enchère"
+                              : "You are no longer the highest bidder"}
                           </span>
                         </td>
                         <td
@@ -299,7 +315,11 @@ export default function BidCard(props) {
                           }}
                         >
                           <NavLink to={`/lot/${lot._id}`}>
-                            <Button variant="contained" color="primary">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              disabled={isAuctionEnded}
+                            >
                               {i18next.language === "fr-FR"
                                 ? "ENCHERIR"
                                 : "BID"}
