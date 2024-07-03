@@ -32,7 +32,6 @@ export default function Lot() {
   const [t, i18n] = useTranslation();
 
   let prevLot;
-
   function fetchLot() {
     axios
       .get(`${process.env.REACT_APP_API_URL}api/lot/${params.id}`)
@@ -51,7 +50,6 @@ export default function Lot() {
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <div className="page page-lot">
       {!isEmpty(lot) && (
@@ -68,7 +66,15 @@ export default function Lot() {
               <br />
               <h2>{i18n.language === "fr-FR" ? lot.title : lot.titleEN}</h2>
             </div>
-            <BidPanel lot={lot} user={user} fetchLot={fetchLot} />
+            <div>
+              {!lot.commission ? (
+                <BidPanel lot={lot} user={user} fetchLot={fetchLot} />
+              ) : (
+                <p>0751272799</p>
+              )}
+              {console.log("comision", prevLot)}
+            </div>
+            {/*  <BidPanel lot={lot} user={user} fetchLot={fetchLot} /> */}
           </div>
           <br />
           <div className="images-and-pedigree">

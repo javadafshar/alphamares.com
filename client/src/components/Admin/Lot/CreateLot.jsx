@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { countries } from "../../Log/inputRessources";
 import { isEmbryo } from "../../../utils/Utils";
 import Select from "@mui/material/Select";
+import { useParams } from "react-router-dom";
 
 function CreateLot(props) {
   const [pictures, setPictures] = useState();
@@ -14,6 +15,29 @@ function CreateLot(props) {
   const [pictureFather, setPictureFather] = useState();
   const [veterinaryDocuments, setVeterinaryDocuments] = useState();
   const [blackType, setBlackType] = useState();
+
+  const [auction, setAuction] = useState([]);
+  const { id } = useParams(); // Access 'id' parameter from the URL
+
+  useEffect(() => {
+    const fetchAuction = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}api/auction/${id}`
+        );
+        setAuction(response.data);
+        console.log("response", response.data);
+      } catch (error) {
+        console.error("Error fetching auction:", error);
+      }
+    };
+
+    fetchAuction();
+
+    return () => {
+      // Cleanup function (if needed)
+    };
+  }, [id]); // Depend on 'id', so
 
   const [lot, setLot] = useState({
     number: props.nbLots + 1,
@@ -137,6 +161,7 @@ function CreateLot(props) {
     data.append("video", lot.video);
     data.append("commentFR", lot.commentFR);
     data.append("commentEN", lot.commentEN);
+
     if (pictures) {
       for (let i = 0; i < pictures.length; i++) {
         data.append("pictures", pictures[i]);
@@ -392,34 +417,42 @@ function CreateLot(props) {
                   )}
                 </TextField>
               </div>
-              <div style={{ flex: "2" }}>
-                <label htmlFor="price">Prix* :</label>
-                <br />
-                <TextField
-                  type="number"
-                  id="price"
-                  name="price"
-                  size="small"
-                  InputProps={{ endAdornment: "€" }}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div style={{ flex: "1" }}>
-                <label htmlFor="tva">TVA (%)* :</label>
-                <br />
-                <TextField
-                  type="number"
-                  id="tva"
-                  name="tva"
-                  size="small"
-                  InputProps={{ endAdornment: "%" }}
-                  onChange={handleChange}
-                  defaultValue={20}
-                  inputProps={{ step: "0.1" }}
-                  required
-                />
-              </div>
+              {/* start */}
+              {auction.saleType === "private_sale" ? (
+                <h3>private_sale</h3>
+              ) : (
+                <>
+                  <div style={{ flex: "2" }}>
+                    <label htmlFor="price">Prix* :</label>
+                    <br />
+                    <TextField
+                      type="number"
+                      id="price"
+                      name="price"
+                      size="small"
+                      InputProps={{ endAdornment: "€" }}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div style={{ flex: "1" }}>
+                    <label htmlFor="tva">TVA (%)* :</label>
+                    <br />
+                    <TextField
+                      type="number"
+                      id="tva"
+                      name="tva"
+                      size="small"
+                      InputProps={{ endAdornment: "%" }}
+                      onChange={handleChange}
+                      defaultValue={20}
+                      inputProps={{ step: "0.1" }}
+                      required
+                    />
+                  </div>
+                </>
+              )}
+              {/* end */}
             </div>
 
             <br />

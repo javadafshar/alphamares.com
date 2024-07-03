@@ -184,7 +184,9 @@ const LotSchema = new mongoose.Schema( // LOT
             type: [String],
         },
         auction: {
-            type: String,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'auction', // Reference to the Auction model
+           
         },
         commentFR:{
             type: String,

@@ -87,7 +87,7 @@ function LotCard(props) {
                 {lot.pedigree.gen2.GFMaternal}
               </p>
               <br />
-              {when === "now" && (
+              {/*  {when === "now" && (
                 <div className="chrono-price">
                   <h1>
                     <Chrono start={lot.start} end={lot.end} />
@@ -101,7 +101,7 @@ function LotCard(props) {
                     </h1>
                   )}
                 </div>
-              )}
+              )} */}
             </CardContent>
             <div className="Action">
               {when === "now" && (
