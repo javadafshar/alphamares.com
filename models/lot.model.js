@@ -54,12 +54,12 @@ const LotSchema = new mongoose.Schema( // LOT
         start:{
             type: Date,
             validate: [isDate],
-            required: true,
+            //required: true,
         },
         end:{
             type: Date,
             validate: [isDate],
-            required: true,
+           // required: true,
         },
         closed: {
             type: Boolean,

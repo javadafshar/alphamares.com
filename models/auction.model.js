@@ -1,46 +1,62 @@
 const mongoose = require('mongoose');
 const { isDate } = require('validator');
-const {lotSchema} = require('./lot.model');
 
 const auctionSchema = new mongoose.Schema(
     {
-        title:{
+        title: {
             type: String,
             required: true,
             minLength: 3,
             trim: true
         },
-        titleEN:{
+        titleEN: {
             type: String,
             required: true,
             minLength: 3,
             trim: true
         },
-        start:{
+        subtitle: {
+            type: String,
+            minLength: 3,
+            trim: true,
+            validate: {
+                validator: function (value) {
+                    return this.saleType === 'private_sale' ? value && value.length >= 3 : true;
+                },
+                message: 'Subtitle is required and should be at least 3 characters for private sales.'
+            }
+        },
+        start: {
             type: Date,
-            validate: [isDate],
-            required: true,
+            validate: [isDate, 'Invalid start date'],
+            required: function () {
+                return this.saleType === 'auction';
+            },
         },
-        end:{
+        end: {
             type: Date,
-            validate: [isDate],
-            required: true,
+            validate: [isDate, 'Invalid end date'],
+            required: function () {
+                return this.saleType === 'auction';
+            },
         },
-        commission:{
-            type:String,
-            required: true,
+        commission: {
+            type: String,
+            required: function () {
+                return this.saleType === 'auction';
+            },
         },
-        picture:{
-            type:String,
+        picture: {
+            type: String,
             //required: true,
         },
-        description:{
+        description: {
             type: String,
             required: true,
             maxLength: 300,
             trim: true
         },
-        descriptionEN:{
+        descriptionEN: {
             type: String,
             required: true,
             maxLength: 300,
@@ -49,18 +65,24 @@ const auctionSchema = new mongoose.Schema(
         catalogue: {
             type: [String],
         },
-        closed:{
+        closed: {
             type: Boolean,
             required: true,
         },
         sales: {
             type: [String]
+        },
+        saleType: {
+            type: String,
+            enum: ['auction', 'private_sale'],
+            default: 'auction' // Default value is auction
         }
     },
     {
-        timestamps: true, 
+        timestamps: true,
     }
 );
 
 const AuctionModel = mongoose.model('auction', auctionSchema);
+
 module.exports = AuctionModel;

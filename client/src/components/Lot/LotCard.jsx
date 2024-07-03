@@ -36,12 +36,12 @@ function LotCard(props) {
               <CardMedia>
                 <div className="split-image-container">
                   <img
-                    src={`${process.env.REACT_APP_API_URL}${lot.pictureFather}`}
+                    src={`${process.env.REACT_APP_API_URL}uploads/${lot.pictureFather}`}
                     alt="Father"
                     className="left"
                   />
                   <img
-                    src={`${process.env.REACT_APP_API_URL}${lot.pictureMother}`}
+                    src={`${process.env.REACT_APP_API_URL}uploads/${lot.pictureMother}`}
                     alt="Mother"
                     className="right"
                   />
@@ -74,11 +74,13 @@ function LotCard(props) {
             </div>
             <CardContent>
               <h2>
-                Lot {lot.number} - {t("Lot." + lot.type)} - {t(/* "Lot."  */ lot.sexe)}
+                Lot {lot.number} - {t("Lot." + lot.type)} -{" "}
+                {t(/* "Lot."  */ lot.sexe)}
               </h2>{" "}
-             
               <hr />
-              <p className="lot-title">{i18n.language === "fr-FR" ? lot.title : lot.titleEN}</p>
+              <p className="lot-title">
+                {i18n.language === "fr-FR" ? lot.title : lot.titleEN}
+              </p>
               <hr />
               <p className="vs">
                 {lot.pedigree.gen1.father} <span className="xLot">X</span>{" "}
@@ -94,7 +96,9 @@ function LotCard(props) {
                   {isEmpty(lot.lastBid) ? (
                     <h1 className="price">{numberWithPoint(lot.price)} €</h1>
                   ) : (
-                    <h1 className="price">{numberWithPoint(lot.lastBid.amount)} €</h1>
+                    <h1 className="price">
+                      {numberWithPoint(lot.lastBid.amount)} €
+                    </h1>
                   )}
                 </div>
               )}

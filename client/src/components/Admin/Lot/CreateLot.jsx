@@ -656,7 +656,7 @@ function CreateLot(props) {
             </div>
           </div>
         )}
-
+        {/* end of part 1  */}
         <br />
 
         {lot.type === "ImplantedEmbryo" && (
