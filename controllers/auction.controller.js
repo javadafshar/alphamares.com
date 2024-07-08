@@ -122,7 +122,7 @@ module.exports.updateAuction = async (req, res) => {
 
     // Update fields based on saleType
     if (saleType === "auction") {
-      if (!title || !titleEN || !description || !descriptionEN || !start || !end || !commission) {
+      if (!title || !titleEN || !description || !descriptionEN ) {
         return res.status(400).json({ message: "All fields are required for updating auction." });
       }
 
@@ -153,7 +153,7 @@ module.exports.updateAuction = async (req, res) => {
     // Handle picture update if available
     if (req.file) {
       if (auction.picture) {
-        fs.unlinkSync(path.join(__dirname, "..", "uploads", "auctionPictures", auction.picture));
+        fs.unlinkSync(path.join(__dirname, "..",  auction.picture));
       }
       auction.picture = req.file.path; // Assuming correct path handling
     }
