@@ -6,8 +6,8 @@ export default function UpdateAuction(props) {
   const [formData, setFormData] = useState({
     title: props.auction.title,
     titleEN: props.auction.titleEN,
-    start: props.auction.start,
-    end: props.auction.end,
+    start: moment(props.auction.start).format("YYYY-MM-DDTHH:mm"),
+    end: moment(props.auction.end).format("YYYY-MM-DDTHH:mm"),
     commission: props.auction.commission,
     description: props.auction.description,
     descriptionEN: props.auction.descriptionEN,
@@ -18,7 +18,13 @@ export default function UpdateAuction(props) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+
+    if (name === "start" || name === "end") {
+      const formattedDate = moment(value).format("YYYY-MM-DDTHH:mm");
+      setFormData({ ...formData, [name]: formattedDate });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -29,7 +35,6 @@ export default function UpdateAuction(props) {
       data.append("titleEN", formData.titleEN);
       data.append("description", formData.description);
       data.append("descriptionEN", formData.descriptionEN);
-      //data.append("saleType", props.auction.saleType);
 
       if (file) {
         data.append("picture", file);
@@ -39,8 +44,10 @@ export default function UpdateAuction(props) {
         data.append("start", formData.start);
         data.append("end", formData.end);
         data.append("commission", formData.commission);
+        data.append("saleType", "auction");
       } else if (props.auction.saleType === "private_sale") {
         data.append("subtitle", formData.subtitle);
+        data.append("saleType", "private_sale");
       }
 
       await axios.put(
@@ -52,11 +59,13 @@ export default function UpdateAuction(props) {
           },
         }
       );
+
       props.onClose();
     } catch (err) {
+      console.error("Error updating auction:", err);
       alert(
         err.response.data === "LIMIT_FILE_SIZE"
-          ? "Erreur : le fichier est trop VOLUMINEUX (8Mo max)"
+          ? "Error: File size exceeds limit (8MB max)"
           : err.response.data
       );
     }
@@ -100,7 +109,7 @@ export default function UpdateAuction(props) {
               <input
                 type="datetime-local"
                 name="start"
-                value={moment(formData.start).format("YYYY-MM-DDTHH:mm")}
+                value={formData.start}
                 onChange={handleChange}
                 style={{ border: "1px solid" }}
                 required
@@ -112,7 +121,7 @@ export default function UpdateAuction(props) {
               <input
                 type="datetime-local"
                 name="end"
-                value={moment(formData.end).format("YYYY-MM-DDTHH:mm")}
+                value={formData.end}
                 onChange={handleChange}
                 style={{ border: "1px solid" }}
                 required

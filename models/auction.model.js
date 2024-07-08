@@ -28,14 +28,14 @@ const auctionSchema = new mongoose.Schema(
         },
         start: {
             type: Date,
-            validate: [isDate, 'Invalid start date'],
+           
             required: function () {
                 return this.saleType === 'auction';
             },
         },
         end: {
             type: Date,
-            validate: [isDate, 'Invalid end date'],
+           
             required: function () {
                 return this.saleType === 'auction';
             },

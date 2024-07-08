@@ -128,7 +128,7 @@ export default function CurrentAuction() {
                   {" "}
                   Sous-titre :{" "}
                   <p style={{ fontSize: "2.2rem", color: "white" }}>
-                    {currentAuction.description}
+                    {currentAuction.subtitle}
                   </p>
                 </h2>
                 <br />

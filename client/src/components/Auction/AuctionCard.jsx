@@ -43,18 +43,18 @@ export default function AuctionCard(props) {
             <img
               src={`${process.env.REACT_APP_API_URL}${auction.picture}`}
               alt="Auction"
-            /><p className="" id="auctionid">
-            {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
-          </p>
+            />
+            <p className="" id="auctionid">
+              {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
+            </p>
           </CardMedia>
           <CardContent sx={{ paddingBottom: "0!important", padding: 0 }}>
             <div className="content-container">
-              
               <Typography gutterBottom variant="h7" component="div">
                 {moment(auction.start).format("L")} -{" "}
                 {moment(auction.end).format("L")}
               </Typography>
-              <hr className="hr2"/>
+              <hr className="hr2" />
               <Typography gutterBottom variant="h6" component="div">
                 {when === "now" && (
                   <div>

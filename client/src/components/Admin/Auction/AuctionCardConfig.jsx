@@ -7,12 +7,12 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import moment from "moment";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import ConfirmDialog from "../ConfirmDialog";
 import { useTranslation } from "react-i18next";
 import { whenFunction } from "../../Chrono";
+import moment from "moment";
 
 export default function AuctionCardConfig(props) {
   const auction = props.auction;
@@ -20,11 +20,15 @@ export default function AuctionCardConfig(props) {
   const { i18n } = useTranslation();
 
   async function deleteAuction() {
-    await axios
-      .delete(`${process.env.REACT_APP_API_URL}api/auction/${auction._id}`)
-      .then((res) => alert(`${auction.title} : supprimée`))
-      .catch((err) => console.log(err));
-    setOpen(false);
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}api/auction/${auction._id}`
+      );
+      alert(`${auction.title} : supprimée`);
+      setOpen(false);
+    } catch (err) {
+      console.error("Error deleting auction:", err);
+    }
   }
 
   return (
@@ -39,18 +43,25 @@ export default function AuctionCardConfig(props) {
           <Typography gutterBottom variant="h5" component="div">
             {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
           </Typography>
-          <Typography gutterBottom variant="h5" component="div">
-            {whenFunction(auction.start, auction.end) === "now" && "EN COURS"}
-            {whenFunction(auction.start, auction.end) === "coming" && "A VENIR"}
-            {whenFunction(auction.start, auction.end) === "passed" && "FINIT"}
-          </Typography>
-          <Typography gutterBottom variant="h7" component="div">
-            {moment(auction.start).calendar()}
-          </Typography>
-          <Typography gutterBottom variant="h7" component="div">
-            {moment(auction.end).calendar()}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
+          {auction.start && moment(auction.start).isValid() && (
+            <Typography gutterBottom variant="h5" component="div">
+              {whenFunction(auction.start, auction.end) === "now" && "EN COURS"}
+              {whenFunction(auction.start, auction.end) === "coming" &&
+                "A VENIR"}
+              {whenFunction(auction.start, auction.end) === "passed" && "FINIT"}
+            </Typography>
+          )}
+          {auction.start && moment(auction.start).isValid() && (
+            <Typography gutterBottom variant="h7" component="div">
+              {moment(auction.start).calendar()}
+            </Typography>
+          )}
+          {auction.end && moment(auction.end).isValid() && (
+            <Typography gutterBottom variant="h7" component="div">
+              {moment(auction.end).calendar()}
+            </Typography>
+          )}
+          <Typography variant="h5" color="text.secondary">
             {i18n.language === "fr-FR"
               ? auction.description
               : auction.descriptionEN}
