@@ -42,7 +42,7 @@ router.get('/',  auctionController.getAuctions);
 router.get('/:id', auctionController.getAuction); // :id est un paramètre
 router.get('/lots/:id', auctionController.auctionLots);
 router.put('/:id', checkAdmin, uploadPicture,  auctionController.updateAuction);
-// router.put('/add/:id', checkAdmin, auctionController.addLot);
+//router.put('/add/:id', checkAdmin,uploadPicture, auctionController.addLot);
 router.patch('/close/:id', checkAdmin, auctionController.closeAuction);
 router.delete('/:id', checkAdmin, auctionController.deleteAuction);
 

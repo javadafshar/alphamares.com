@@ -1,14 +1,21 @@
 const mongoose = require('mongoose');
 const {BidSchema} = require('./bid.model');
 const { isDate } = require('validator');
+const Schema = mongoose.Schema;
 
 
 const LotSchema = new mongoose.Schema( // LOT
     {
+        auction: {
+        type: Schema.Types.ObjectId,
+        ref: 'Auction',
+        required: true},
+
         number: {
             type: Number,
             required: true,
         },
+        
         title: {
             type: String,
             required: true,
@@ -45,11 +52,11 @@ const LotSchema = new mongoose.Schema( // LOT
         },
         price: {
             type: Number,
-            required: true,
+          
         },
         tva: {
             type: Number,
-            required: true,
+            
         },
         start:{
             type: Date,

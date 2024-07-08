@@ -1,10 +1,26 @@
 .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
-    border: 1px solid white;
-    width: 40px !important;
-    height: 35px;
-  }
-  
-  .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root svg {
-    color: white;
-  }
-  
+  border: 1px solid white;
+  width: 40px !important;
+  height: 35px;
+}
+
+.terms-container {
+  display: block;
+  color: #2d374d;
+  background-color: transparent;
+  font-family: "font-2";
+  border: 3px solid;
+  border-color: #efc16d;
+  background-color: white;
+  margin: 1rem 1rem 1rem 3rem;
+  padding: calc(0.5px + 0.5vw) calc(2px + 1vw);
+  font-size: calc(1rem + 0.5vw);
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root svg {
+  color: white;
+}

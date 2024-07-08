@@ -54,7 +54,7 @@ function LotCard(props) {
               <CardMedia>
                 <div>
                   <img
-                    src={`${process.env.REACT_APP_API_URL}${lot.pictures[0]}`}
+                    src={`${process.env.REACT_APP_API_URL}uploads/${lot.pictures[0]}`}
                     alt="Lot"
                   />
                 </div>

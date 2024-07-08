@@ -11,6 +11,7 @@ export default function UpdateAuction(props) {
     commission: props.auction.commission,
     description: props.auction.description,
     descriptionEN: props.auction.descriptionEN,
+    subtitle: props.auction.subtitle || "",
   });
 
   const [file, setFile] = useState();
@@ -20,39 +21,50 @@ export default function UpdateAuction(props) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData();
-    data.append("title", formData.title);
-    data.append("titleEN", formData.titleEN);
-    data.append("description", formData.description);
-    data.append("descriptionEN", formData.descriptionEN);
-    data.append("picture", file);
+    try {
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("titleEN", formData.titleEN);
+      data.append("description", formData.description);
+      data.append("descriptionEN", formData.descriptionEN);
+      //data.append("saleType", props.auction.saleType);
 
-    if (props.auction.saleType === "auction") {
-      data.append("start", formData.start);
-      data.append("end", formData.end);
-      data.append("commission", formData.commission);
-    }
+      if (file) {
+        data.append("picture", file);
+      }
 
-    axios
-      .put(
+      if (props.auction.saleType === "auction") {
+        data.append("start", formData.start);
+        data.append("end", formData.end);
+        data.append("commission", formData.commission);
+      } else if (props.auction.saleType === "private_sale") {
+        data.append("subtitle", formData.subtitle);
+      }
+
+      await axios.put(
         `${process.env.REACT_APP_API_URL}api/auction/${props.auction._id}`,
-        data
-      )
-      .then(() => props.onClose())
-      .catch((err) => {
-        alert(
-          err.response.data === "LIMIT_FILE_SIZE"
-            ? "Erreur : le fichier est trop VOLUMINEUX (8Mo max)"
-            : err.response.data
-        );
-      });
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      props.onClose();
+    } catch (err) {
+      alert(
+        err.response.data === "LIMIT_FILE_SIZE"
+          ? "Erreur : le fichier est trop VOLUMINEUX (8Mo max)"
+          : err.response.data
+      );
+    }
   };
 
   return (
     <div style={{ margin: "5% 1%", padding: "5%" }}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           Titre :
           <input
@@ -63,6 +75,7 @@ export default function UpdateAuction(props) {
             minLength={3}
             maxLength={30}
             style={{ border: "1px solid" }}
+            required
           />
         </label>
         <br />
@@ -76,6 +89,7 @@ export default function UpdateAuction(props) {
             minLength={3}
             maxLength={30}
             style={{ border: "1px solid" }}
+            required
           />
         </label>
         <br />
@@ -89,6 +103,7 @@ export default function UpdateAuction(props) {
                 value={moment(formData.start).format("YYYY-MM-DDTHH:mm")}
                 onChange={handleChange}
                 style={{ border: "1px solid" }}
+                required
               />
             </label>
             <br />
@@ -100,6 +115,7 @@ export default function UpdateAuction(props) {
                 value={moment(formData.end).format("YYYY-MM-DDTHH:mm")}
                 onChange={handleChange}
                 style={{ border: "1px solid" }}
+                required
               />
             </label>
             <br />
@@ -118,31 +134,50 @@ export default function UpdateAuction(props) {
             <br />
           </>
         )}
+        {props.auction.saleType === "private_sale" && (
+          <>
+            <label>
+              Sous-titre :
+              <input
+                type="text"
+                name="subtitle"
+                value={formData.subtitle}
+                onChange={handleChange}
+                minLength={3}
+                maxLength={50}
+                style={{ border: "1px solid" }}
+                required
+              />
+            </label>
+            <br />
+          </>
+        )}
         <label>
           Description:
           <textarea
-            type="text"
             name="description"
             value={formData.description}
             onChange={handleChange}
             minLength={3}
             maxLength={300}
             style={{ border: "1px solid" }}
+            required
           />
         </label>
         <br />
         <label>
           Description en anglais :
           <textarea
-            type="text"
             name="descriptionEN"
             value={formData.descriptionEN}
             onChange={handleChange}
             minLength={3}
             maxLength={300}
             style={{ border: "1px solid" }}
+            required
           />
         </label>
+        <br />
         <label htmlFor="file">Charger une image</label>
         <input
           type="file"
@@ -152,7 +187,7 @@ export default function UpdateAuction(props) {
           onChange={(e) => setFile(e.target.files[0])}
         />
         <br />
-        <button onClick={handleSubmit}>Éditer la vente</button>
+        <button type="submit">Éditer la vente</button>
       </form>
     </div>
   );

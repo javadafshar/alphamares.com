@@ -108,7 +108,7 @@ module.exports.auctionLots = async (req, res) => {
 // Function to update an auction or private sale
 module.exports.updateAuction = async (req, res) => {
   const { id } = req.params;
-  const { saleType } = req.body;
+  const { saleType, title, titleEN, subtitle, description, descriptionEN, start, end, commission } = req.body;
 
   try {
     if (!ObjectID.isValid(id)) {
@@ -122,54 +122,20 @@ module.exports.updateAuction = async (req, res) => {
 
     // Update fields based on saleType
     if (saleType === "auction") {
-      const {
-        title,
-        titleEN,
-        start,
-        end,
-        commission,
-        description,
-        descriptionEN,
-      } = req.body;
-      if (
-        !title ||
-        !titleEN ||
-        !start ||
-        !end ||
-        !commission ||
-        !description ||
-        !descriptionEN
-      ) {
-        return res
-          .status(400)
-          .json({ message: "All fields are required for updating auction." });
+      if (!title || !titleEN || !description || !descriptionEN || !start || !end || !commission) {
+        return res.status(400).json({ message: "All fields are required for updating auction." });
       }
 
       auction.title = title;
       auction.titleEN = titleEN;
+      auction.description = description;
+      auction.descriptionEN = descriptionEN;
       auction.start = start;
       auction.end = end;
       auction.commission = commission;
-      auction.description = description;
-      auction.descriptionEN = descriptionEN;
-
-      // Update start and end time for associated lots
-      await Promise.all(
-        auction.catalogue.map(async (lotId) => {
-          const lot = await LotModel.findById(lotId);
-          lot.start = start;
-          lot.end = moment(end).add(2 * (lot.number - 1), "minutes");
-          await lot.save();
-        })
-      );
     } else if (saleType === "private_sale") {
-      const { title, titleEN, subtitle, description, descriptionEN } = req.body;
       if (!title || !titleEN || !subtitle || !description || !descriptionEN) {
-        return res
-          .status(400)
-          .json({
-            message: "All fields are required for updating private sale.",
-          });
+        return res.status(400).json({ message: "All fields are required for updating private sale." });
       }
 
       auction.title = title;
@@ -177,8 +143,6 @@ module.exports.updateAuction = async (req, res) => {
       auction.subtitle = subtitle;
       auction.description = description;
       auction.descriptionEN = descriptionEN;
-
-      // Ensure auction-specific fields are cleared if transitioning from auction to private sale
       auction.start = null;
       auction.end = null;
       auction.commission = null;
@@ -189,18 +153,19 @@ module.exports.updateAuction = async (req, res) => {
     // Handle picture update if available
     if (req.file) {
       if (auction.picture) {
-        fs.unlinkSync("uploads/" + auction.picture);
+        fs.unlinkSync(path.join(__dirname, "..", "uploads", "auctionPictures", auction.picture));
       }
-      auction.picture = req.file.path.split("uploads/").pop();
+      auction.picture = req.file.path; // Assuming correct path handling
     }
 
     await auction.save();
     res.status(200).json({ message: "Auction updated successfully.", auction });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Internal server error." });
+    console.error("Error updating auction:", err);
+    res.status(500).json({ message: "Internal server error.", error: err.message });
   }
 };
+
 
 // Function to delete an auction and its associated lots, bids, and sales
 const deleteFile = (filePath) => {
