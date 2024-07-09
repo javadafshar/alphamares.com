@@ -31,35 +31,16 @@ const Home = () => {
   }
 
   function getCurrentAuction(auctions) {
-    var now = moment();
-    var auctionsInProgress = [];
-    var auctionsToCome = [];
-    var previousAuctions = [];
-    auctions.forEach((auction) => {
-      if (
-        moment(auction.start).isSameOrBefore(now) &&
-        moment(auction.end).isAfter(now)
-      ) {
-        auctionsInProgress.push(auction);
-      }
-      if (moment(auction.start).isAfter(now)) {
-        auctionsToCome.push(auction);
-      }
-      if (moment(auction.end).isBefore(now)) {
-        previousAuctions.push(auction);
-      }
-    });
-    if (auctionsInProgress.length > 0) {
-      setDisplayedAuction(auctionsInProgress[0]);
-    } else if (auctionsToCome.length > 0) {
-      if (auctionsToCome.length === 1) {
-        setDisplayedAuction(auctionsToCome[0]);
-      } else {
-        auctionsToCome.sort((a, b) => moment(a.start).diff(moment(b.start)));
-        setDisplayedAuction(auctionsToCome[0]);
-      }
-    } else if (previousAuctions.length > 0) {
-      setDisplayedAuction(previousAuctions.pop());
+    // Sort auctions by createdAt in descending order
+    const sortedAuctions = auctions.sort((a, b) =>
+      moment(b.createdAt).diff(moment(a.createdAt))
+    );
+
+    // Set the displayed auction to the first item in sortedAuctions
+    if (sortedAuctions.length > 0) {
+      setDisplayedAuction(sortedAuctions[0]);
+    } else {
+      setDisplayedAuction(null); // Handle case where no auctions are available
     }
   }
 

@@ -2,29 +2,31 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Chrono, whenFunction } from "../Chrono";
+import moment from "moment";
 
 export default function PresentedAuction(props) {
-  const start = props.displayedAuction.start;
-  const end = props.displayedAuction.end;
-  const saleType = props.displayedAuction.saleType; // Assuming saleType is fetched from the displayedAuction
+  const { displayedAuction } = props;
+  const { start, end, saleType, createdAt, subtitle } = displayedAuction;
 
   const [t, i18n] = useTranslation();
   const [when, setWhen] = useState();
 
   useEffect(() => {
-    setWhen(whenFunction(start, end));
-    const interval = setInterval(() => {
+    if (start && end) {
       setWhen(whenFunction(start, end));
-    }, 1000);
-    return () => clearInterval(interval);
+      const interval = setInterval(() => {
+        setWhen(whenFunction(start, end));
+      }, 1000);
+      return () => clearInterval(interval);
+    } else {
+      setWhen(null);
+    }
   }, [start, end]);
 
-  // Determine if auction saleType is not 'auction'
   const isNotAuction = saleType !== "auction";
 
   return (
     <div className="presented-auction">
-      {isNotAuction && <h1 className="title"></h1>}
       {isNotAuction && <h1 className="title">Vente Amiable</h1>}
       {!isNotAuction && when === "coming" && (
         <h1 className="title">{t("Home.Presented-Auction.To-come")}</h1>
@@ -42,11 +44,11 @@ export default function PresentedAuction(props) {
         </div>
       )}
       <div className="card-auction">
-        <NavLink to={`/auction/${props.displayedAuction._id}`}>
+        <NavLink to={`/auction/${displayedAuction._id}`}>
           <h2 style={{ fontWeight: "800" }}>
             {i18n.language === "en-EN"
-              ? props.displayedAuction.titleEN
-              : props.displayedAuction.title}
+              ? displayedAuction.titleEN
+              : displayedAuction.title}
           </h2>
           {when === "now" && (
             <h3>
@@ -63,6 +65,11 @@ export default function PresentedAuction(props) {
           {when === "passed" && (
             <h3>
               <Chrono start={start} end={end} />
+            </h3>
+          )}
+          {isNotAuction && !when && (
+            <h3>
+              {t(subtitle)} <span>{moment(createdAt).fromNow()}</span>
             </h3>
           )}
           <button className="btn activate">

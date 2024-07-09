@@ -116,7 +116,7 @@ function LotCard(props) {
               {when === "now" && (
                 <div className="open">
                   {!isEmpty(lot.lastBid) && lot.lastBid.bidderId === uid ? (
-                    <h1 className="holder">{t("Auction.YouHolder")}</h1>
+                    <h1 className="holder">{t("informationd")}</h1>
                   ) : (
                     <h1>{t("Auction.Bid")}</h1>
                   )}
@@ -125,11 +125,11 @@ function LotCard(props) {
               {when === "passed" && (
                 <div className="closed">
                   {isEmpty(lot.lastBid) ? (
-                    <h1>{t("Auction.Closed")}</h1>
+                    <h1>{t("informationd")}</h1>
                   ) : lot.lastBid.bidderId === uid ? (
                     <h1 className="you-won">{t("Auction.Won")}</h1>
                   ) : (
-                    <h1>{t("Auction.Closed")}</h1>
+                    <h1>{t("informationd")}</h1>
                   )}
                 </div>
               )}
@@ -142,7 +142,7 @@ function LotCard(props) {
               )}
               {when === "amiable" && (
                 <div className="closed">
-                  <h4>{t("Auction Amiable")}</h4>
+                  <h4>{t("information")}</h4>
                 </div>
               )}
             </div>
