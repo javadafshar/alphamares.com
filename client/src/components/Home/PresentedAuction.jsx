@@ -76,6 +76,7 @@ export default function PresentedAuction(props) {
             {t("Home.Presented-Auction.See-Catalog")}
           </button>
         </NavLink>
+        {/*  */}
       </div>
     </div>
   );
