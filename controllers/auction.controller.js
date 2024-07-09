@@ -223,8 +223,7 @@ module.exports.deleteAuction = async (req, res) => {
       const filePath = path.join(
         __dirname,
         "..",
-        "uploads",
-        "auctionPictures",
+ 
         auction.picture
       );
       deleteFile(filePath);

@@ -19,9 +19,18 @@ function LotCard(props) {
 
   useEffect(() => {
     if (lot) {
-      setWhen(whenFunction(lot.start, lot.end));
+      // Custom function to determine auction status
+      const determineStatus = () => {
+        if (!lot.start || !lot.end) {
+          return "amiable"; // No valid date, consider as "amiable"
+        }
+
+        return whenFunction(lot.start, lot.end); // Calculate using existing logic
+      };
+
+      setWhen(determineStatus());
       const interval = setInterval(() => {
-        setWhen(whenFunction(lot.start, lot.end));
+        setWhen(determineStatus());
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -129,6 +138,11 @@ function LotCard(props) {
                   <h1>
                     {t("Auction.In")} <Chrono start={lot.start} end={lot.end} />
                   </h1>
+                </div>
+              )}
+              {when === "amiable" && (
+                <div className="closed">
+                  <h4>{t("Auction Amiable")}</h4>
                 </div>
               )}
             </div>
