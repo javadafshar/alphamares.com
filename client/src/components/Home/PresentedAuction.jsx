@@ -69,7 +69,7 @@ export default function PresentedAuction(props) {
           )}
           {isNotAuction && !when && (
             <h3>
-              {t(subtitle)} <span>{moment(createdAt).fromNow()}</span>
+              {/*  {t(subtitle)} <span>{moment(createdAt).fromNow()}</span> */}
             </h3>
           )}
           <button className="btn activate">

@@ -193,19 +193,17 @@ const BidPanel = (props) => {
           >
             +33 6 33 34 66 54
           </p>
-          <p
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            {i18n.language === "fr"
-              ? t("Appel ou Whatsapp")
-              : "Appel ou Whatsapp"}
-          </p>
         </div>
       )}
+      <p
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        {i18n.language === "fr" ? t("Appel ou Whatsapp") : "Appel ou Whatsapp"}
+      </p>
     </div>
   );
 };

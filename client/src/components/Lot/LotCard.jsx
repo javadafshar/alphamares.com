@@ -123,7 +123,7 @@ function LotCard(props) {
                 </div>
               )}
               {when === "passed" && (
-                <div className="closed">
+                <div className="open">
                   {isEmpty(lot.lastBid) ? (
                     <h1>{t("informationd")}</h1>
                   ) : lot.lastBid.bidderId === uid ? (
@@ -134,14 +134,14 @@ function LotCard(props) {
                 </div>
               )}
               {when === "coming" && (
-                <div className="coming">
+                <div className="open">
                   <h1>
                     {t("Auction.In")} <Chrono start={lot.start} end={lot.end} />
                   </h1>
                 </div>
               )}
               {when === "amiable" && (
-                <div className="closed">
+                <div className="open">
                   <h4>{t("information")}</h4>
                 </div>
               )}
