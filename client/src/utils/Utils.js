@@ -41,8 +41,12 @@ export function whenLot(lot) {
 
 
 export function numberWithPoint(x) {
+  if (x === null || x === undefined) {
+    return '';
+  }
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+
 
 export function isEmbryo(lot) {
   return (lot.type === "FrozenEmbryo" || lot.type === "ImplantedEmbryo");

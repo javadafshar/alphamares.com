@@ -68,7 +68,7 @@ export default function PresentedAuction(props) {
             </h3>
           )}
           {isNotAuction && !when && (
-            <h3 style={{ display: "none" }}>
+            <h3 style={{ marginTop: "-5px" }}>
               {/*  {t(subtitle)} <span>{moment(createdAt).fromNow()}</span> */}
             </h3>
           )}

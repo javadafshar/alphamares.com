@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 const socket = io(`${process.env.REACT_APP_API_URL}`);
 
-const BidPanel = (props) => {
+const BidPanels = (props) => {
   const { user, lot, fetchLot } = props;
   const { uid } = useContext(UidContext);
   const [terms, setTerms] = useState(false);
@@ -206,4 +206,4 @@ const BidPanel = (props) => {
   );
 };
 
-export default BidPanel;
+export default BidPanels;

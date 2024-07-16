@@ -59,31 +59,77 @@ const Auction = () => {
   return (
     <div className="auction">
       <div className="row-resp">
-        {!isEmpty(auction) && (
-          <div className="title">
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <h1>
-              {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
-            </h1>
-            <h2>
-              {i18n.language === "fr-FR"
-                ? auction.description
-                : auction.descriptionEN}
-            </h2>
-            <br />
-            <br />
-            {/*     <h3>{t('Auction.Begin')} {i18n.language === "fr-FR" ? moment(auction.start).format('D MMMM YYYY - HH:mm') : moment(auction.start).format('MMMM D, YYYY - HH:mm')}</h3>
-                    <h3>{t('Auction.End')} {i18n.language === "fr-FR" ? moment(auction.end).format('D MMMM YYYY - HH:mm') : moment(auction.end).format('MMMM D, YYYY - HH:mm')}</h3>
-                    <h3>{t('Auction.Hour')}, GMT+2</h3>
-                    <br />
-                    <br />
-                    <h3>{t('Auction.Commission')}  {auction.commission} %</h3> */}
-          </div>
-        )}
+        {
+          !isEmpty(auction) &&
+            (auction.saleType === "auction" ? (
+              <div className="title">
+                <br />
+                <h1>
+                  {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
+                </h1>
+                <h2>
+                  {i18n.language === "fr-FR"
+                    ? auction.description
+                    : auction.descriptionEN}
+                </h2>
+                <br />
+                <br />
+                <h3>
+                  {t("Auction.Begin")}{" "}
+                  {i18n.language === "fr-FR"
+                    ? moment(auction.start).format("D MMMM YYYY - HH:mm")
+                    : moment(auction.start).format("MMMM D, YYYY - HH:mm")}
+                </h3>
+                <h3>
+                  {t("Auction.End")}{" "}
+                  {i18n.language === "fr-FR"
+                    ? moment(auction.end).format("D MMMM YYYY - HH:mm")
+                    : moment(auction.end).format("MMMM D, YYYY - HH:mm")}
+                </h3>
+                <h3>{t("Auction.Hour")}, GMT+2</h3>
+                <br />
+                <br />
+                <h3>
+                  {t("Auction.Commission")} {auction.commission} %
+                </h3>
+              </div>
+            ) : (
+              ////
+              <div className="title">
+                <br /> <br /> <br /> <br />
+                <h1>
+                  {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
+                </h1>
+                <h2>
+                  {i18n.language === "fr-FR"
+                    ? auction.description
+                    : auction.descriptionEN}
+                </h2>
+                <br />
+                <br />
+                {/*      <h3>
+                  {t("Auction.Begin")}{" "}
+                  {i18n.language === "fr-FR"
+                    ? moment(auction.start).format("D MMMM YYYY - HH:mm")
+                    : moment(auction.start).format("MMMM D, YYYY - HH:mm")}
+                </h3>
+                <h3>
+                  {t("Auction.End")}{" "}
+                  {i18n.language === "fr-FR"
+                    ? moment(auction.end).format("D MMMM YYYY - HH:mm")
+                    : moment(auction.end).format("MMMM D, YYYY - HH:mm")}
+                </h3>
+                <h3>{t("Auction.Hour")}, GMT+2</h3>
+                <br />
+                <br />
+                <h3>
+                  {t("Auction.Commission")} {auction.commission} %
+                </h3> */}
+              </div>
+            ))
+          //
+          //
+        }
         <br />
         <div>
           <img src="/img/auction_horse.jpg" alt="Horse" width={"100%"} />

@@ -46,6 +46,9 @@
       line-height: 1.8vw;
       justify-content: center;
       display: inline-flex;
+      min-height: 2.5rem;
+      max-height: 2.5rem;
+      align-items: center;
       .parent-name {
         flex: 1;
         text-align: center;

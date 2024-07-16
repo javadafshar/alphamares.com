@@ -35,6 +35,17 @@ export default function AuctionCard({ auction }) {
           <p>{t("Home.Presented-Auction.To-come")}</p>
         </div>
       )}
+      {auction.saleType == "private_sale" ? (
+        <div className="info live-auction">
+          <p>{t("Home.Presented-Auction.vent")}</p>
+          <div className="live-container">
+            {/*     <div className="dot"></div> */}
+            <p className="live title" style={{ color: "white" }}></p>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       <Card>
         <NavLink to={`/auction/${auction._id}`}>
           <CardMedia>

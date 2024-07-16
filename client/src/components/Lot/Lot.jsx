@@ -22,7 +22,8 @@ import { Dialog } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Chrono, whenFunction } from "../Chrono";
 import { io } from "socket.io-client";
-import BidPanel from "./bidpanel";
+//import BidPanel from "./bidpanel";
+const socket = new io(`${process.env.REACT_APP_API_URL}`);
 
 export default function Lot() {
   const [lot, setLot] = useState();
@@ -138,6 +139,325 @@ function Pedigree(props) {
   );
 }
 
+export function BidPanel(props) {
+  const userData = props.user;
+  const lot = props.lot;
+  const [terms, setTerms] = useState(false);
+  const [step, setStep] = useState(0);
+  const [bidPlus, setBidPlus] = useState(0);
+  const [notBidderAnymore, setNotBidderAnymore] = useState(false);
+  const { uid } = useContext(UidContext);
+  const [t] = useTranslation();
+
+  function stepCalcul() {
+    var stepVar;
+    if (isEmpty(lot.lastBid)) {
+      if (lot.price < 1000) stepVar = 100;
+      if (lot.price >= 1000 && 20000 > lot.price) stepVar = 500;
+      if (lot.price >= 20000 && 50000 > lot.price) stepVar = 1000;
+      if (50000 <= lot.price) stepVar = 2000;
+    } else {
+      if (lot.lastBid.amount < 1000) stepVar = 100;
+      if (lot.lastBid.amount >= 1000 && 20000 > lot.lastBid.amount)
+        stepVar = 500;
+      if (lot.lastBid.amount >= 20000 && 50000 > lot.lastBid.amount)
+        stepVar = 1000;
+      if (50000 <= lot.lastBid.amount) stepVar = 2000;
+    }
+    setStep(stepVar);
+    setBidPlus(stepVar);
+  }
+
+  function subBid() {
+    if (bidPlus > step) {
+      setBidPlus(bidPlus - step);
+    }
+  }
+
+  function addBid() {
+    setBidPlus(step + bidPlus);
+  }
+
+  function handleTerms(event) {
+    setTerms(event.target.checked);
+  }
+
+  const sendBid = async () => {
+    try {
+      socket.emit("bid", lot._id);
+      console.log("Bid event emitted");
+    } catch (error) {
+      console.error("Socket emit error:", error);
+    }
+
+    if (terms && bidPlus >= step) {
+      setTerms(false);
+      const bid = {
+        bidderId: userData._id,
+        auctionId: lot.auction,
+        lotId: lot._id,
+        amount: isEmpty(lot.lastBid)
+          ? lot.price + bidPlus
+          : lot.lastBid.amount + bidPlus,
+      };
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}api/bid`, bid)
+        .then(() => props.fetchLot())
+        .catch((err) => console.log(err));
+    }
+  };
+
+  function numberWithPoint(x) {
+    if (x === null || x === undefined) {
+      return "";
+    }
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function wasBidder(lot, uid) {
+    if (!isEmpty(lot.bids)) {
+      lot.bids.forEach((bid) => {
+        if (bid.bidderId === uid) {
+          setNotBidderAnymore(true);
+        }
+      });
+    } else {
+      setNotBidderAnymore(false);
+    }
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => stepCalcul(), [step, lot.lastBid, lot.price]);
+  useEffect(() => {
+    wasBidder(lot, uid);
+  }, [lot, uid]);
+
+  const [when, setWhen] = useState();
+
+  useEffect(() => {
+    if (lot) {
+      setWhen(whenFunction(lot.start, lot.end));
+      const interval = setInterval(() => {
+        setWhen(whenFunction(lot.start, lot.end));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [lot]);
+
+  return lot.price ? (
+    <div className="bidPanel">
+      {when === "now" && !isEmpty(uid) && userData.blocked && (
+        <div className="bidPanel-container">
+          <div className="blob">
+            <h1>{t("Lot.Panel.Current-Auction")}</h1>
+            {isEmpty(lot.lastBid) ? (
+              <h1 className="moove">{numberWithPoint(lot.price || 0)} €</h1>
+            ) : (
+              <h1 className="moove">
+                {numberWithPoint(lot.lastBid.amount || 0)} €
+              </h1>
+            )}
+          </div>
+          <h2>
+            {t("Lot.Panel.Ends-In")} <br />{" "}
+            <strong>
+              <Chrono start={lot.start} end={lot.end} />
+            </strong>
+          </h2>
+          <h2>{t("Lot.Panel.Blocked-Account")}</h2>
+        </div>
+      )}
+      {when === "now" && !isEmpty(uid) && !userData.blocked && (
+        <div className="bidPanel-container">
+          {!isEmpty(lot.lastBid) ? (
+            lot.lastBid.bidderId === uid ? (
+              <div className="YouFirst">{t("Lot.Panel.You-Are-Holder")}</div>
+            ) : notBidderAnymore ? (
+              <div className="YouFirst">
+                {t("Lot.Panel.You-Are-Not-Holder-Anymore")}
+              </div>
+            ) : (
+              <></>
+            )
+          ) : (
+            <></>
+          )}
+          <div className="blob">
+            <h1>{t("Lot.Panel.Current-Auction")}</h1>
+            {isEmpty(lot.lastBid) ? (
+              <h1 className="moove">{numberWithPoint(lot.price || 0)} €</h1>
+            ) : (
+              <h1 className="moove">
+                {numberWithPoint(lot.lastBid.amount || 0)} €
+              </h1>
+            )}
+          </div>
+          <h2>
+            {t("Lot.Panel.Ends-In")}
+            <br />{" "}
+            <strong>
+              <Chrono start={lot.start} end={lot.end} />
+            </strong>
+          </h2>
+          <div className="terms-container">
+            <input
+              type="checkbox"
+              id="terms"
+              onChange={handleTerms}
+              value={terms}
+              checked={terms}
+            />
+            <label htmlFor="terms">
+              {t("Lot.Panel.I-Accept")}{" "}
+              <a
+                href={`${process.env.REACT_APP_API_URL}legals/CGU.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t("Lot.Panel.CGU")}
+              </a>
+              .
+            </label>
+          </div>
+          <div className="btn-container">
+            <div className="btn-add-sub">
+              <div className="btna" onClick={subBid}>
+                -
+              </div>
+              {isEmpty(lot.lastBid) ? (
+                <h3>{numberWithPoint((lot.price || 0) + bidPlus)} €</h3>
+              ) : (
+                <h3>
+                  {numberWithPoint((lot.lastBid.amount || 0) + bidPlus)} €
+                </h3>
+              )}
+              <div className="btna" onClick={addBid}>
+                +
+              </div>
+            </div>
+            <div className="btn-lot">
+              <button disabled={!terms || bidPlus === 0} onClick={sendBid}>
+                {t("Lot.Panel.Bid")}{" "}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {when === "now" && isEmpty(uid) && !userData.blocked && (
+        <div className="bidPanel-container">
+          <div className="blob">
+            <h1>{t("Lot.Panel.Current-Auction")}</h1>
+            {isEmpty(lot.lastBid) ? (
+              <h1 className="moove">{numberWithPoint(lot.price || 0)} €</h1>
+            ) : (
+              <h1 className="moove">
+                {numberWithPoint(lot.lastBid.amount || 0)} €
+              </h1>
+            )}
+          </div>
+          <h2>
+            {t("Lot.Panel.Ends-In")} <br />{" "}
+            <strong>
+              <Chrono start={lot.start} end={lot.end} />
+            </strong>
+          </h2>
+          <div className="btn-container">
+            <NavLink className="btn" to="/profil" state={"sign-up"}>
+              {t("Lot.Panel.Create-Account")}
+            </NavLink>
+          </div>
+        </div>
+      )}
+      {when === "coming" && isEmpty(uid) && (
+        <div className="bidPanel-container">
+          <div className="blob">
+            <h1 style={{ whiteSpace: "nowrap" }}>
+              {t("Lot.Panel.Start-Auction")}
+            </h1>
+            <h1>{numberWithPoint(lot.price || 0)}€</h1>
+          </div>
+          <div>
+            <h5 style={{ fontWeight: "100" }}>{t("Lot.Panel.In")}</h5>
+            <h5>
+              <Chrono start={lot.start} end={lot.end} />
+            </h5>
+          </div>
+          <div className="btn-container">
+            <NavLink className="btn" to="/profil" state={"sign-up"}>
+              {t("Lot.Panel.Create-Account")}
+            </NavLink>
+          </div>
+        </div>
+      )}
+      {when === "coming" && !isEmpty(uid) && (
+        <div className="bidPanel-container">
+          <div className="blob">
+            <h1 style={{ whiteSpace: "nowrap" }}>
+              {t("Lot.Panel.Start-Auction")}
+            </h1>
+            <h1>{numberWithPoint(lot.price || 0)}€</h1>
+          </div>
+          <div>
+            <h5 style={{ fontWeight: "100" }}>{t("Lot.Panel.In")}</h5>
+            <h5>
+              <Chrono start={lot.start} end={lot.end} />
+            </h5>
+          </div>
+        </div>
+      )}
+      {when === "passed" && (
+        <div className="bidPanel-container">
+          {!isEmpty(lot.lastBid) && lot.lastBid.bidderId === uid && (
+            <div className="YouFirst">{t("Lot.Panel.You-Are-Winner")}</div>
+          )}
+          <div className="blob">
+            <h1>{t("Lot.Panel.Last-Auction")}</h1>
+            {isEmpty(lot.lastBid) ? (
+              <h1>{numberWithPoint(lot.price || 0)} €</h1>
+            ) : (
+              <h1>{numberWithPoint(lot.lastBid.amount || 0)}€</h1>
+            )}
+          </div>
+          <div>
+            <h5 style={{ fontWeight: "100" }}>{t("Lot.Panel.Finished")}</h5>
+          </div>
+        </div>
+      )}
+    </div>
+  ) : (
+    <>
+      <div className="terms-container">
+        <p
+          style={{
+            color: "#686e7c",
+            fontSize: "1.5rem",
+            marginBottom: "10px",
+            textAlign: "center",
+          }}
+        >
+          {t("Lot.Panel.AskForPrice")}
+        </p>
+        <p
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          +33 6 33 34 66 54
+        </p>
+      </div>
+      <p
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        {t("Lot.Panel.CallOrWhatsapp")}
+      </p>
+    </>
+  );
+}
 function LotInfos(props) {
   const [index, setIndex] = useState(0);
   const lot = props.lot;
