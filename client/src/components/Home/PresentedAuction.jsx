@@ -27,7 +27,7 @@ export default function PresentedAuction(props) {
 
   return (
     <div className="presented-auction">
-      {isNotAuction && <h1 className="title">Vente Amiable</h1>}
+      {isNotAuction && <h1 className="title">Vente à l’amiable</h1>}
       {!isNotAuction && when === "coming" && (
         <h1 className="title">{t("Home.Presented-Auction.To-come")}</h1>
       )}
@@ -68,7 +68,7 @@ export default function PresentedAuction(props) {
             </h3>
           )}
           {isNotAuction && !when && (
-            <h3>
+            <h3 style={{ display: "none" }}>
               {/*  {t(subtitle)} <span>{moment(createdAt).fromNow()}</span> */}
             </h3>
           )}

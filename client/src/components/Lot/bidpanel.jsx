@@ -180,9 +180,7 @@ const BidPanel = (props) => {
               textAlign: "center",
             }}
           >
-            {i18n.language === "fr"
-              ? t("Ask for the price")
-              : "Demander le prix par téléphone"}
+            {t("Lot.Panel.AskForPrice")}
           </p>
           <p
             style={{
@@ -202,7 +200,7 @@ const BidPanel = (props) => {
           textAlign: "center",
         }}
       >
-        {i18n.language === "fr" ? t("Appel ou Whatsapp") : "Appel ou Whatsapp"}
+        {t("Lot.Panel.CallOrWhatsapp")}
       </p>
     </div>
   );

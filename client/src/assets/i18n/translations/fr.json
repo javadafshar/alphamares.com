@@ -88,7 +88,9 @@
       "CGU": "Conditions Générales d'Utilisation",
       "Bid": "Enchérir",
       "Create-Account": "Créer un compte pour enchérir",
-      "Blocked-Account": "Votre compte est bloqué"
+      "Blocked-Account": "Votre compte est bloqué",
+      "CallOrWhatsapp": "Appel ou WhatsApp",
+      "AskForPrice": "Demande de prix par téléphone"
     }
   },
   "Sign-up": {

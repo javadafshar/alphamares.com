@@ -73,9 +73,9 @@ function LotCard(props) {
             <div className="parents-or-name">
               {isEmbryo(lot) ? (
                 <>
-                  {" "}
-                  <p>{lot.pedigree.gen1.father}</p> <div className="x">X</div>{" "}
-                  <p>{lot.pedigree.gen1.mother}</p>
+                  <p className="parent-name">{lot.pedigree.gen1.father}</p>
+                  <div className="x">X</div>
+                  <p className="parent-name">{lot.pedigree.gen1.mother}</p>
                 </>
               ) : (
                 <p>{lot.name}</p>
@@ -116,7 +116,7 @@ function LotCard(props) {
               {when === "now" && (
                 <div className="open">
                   {!isEmpty(lot.lastBid) && lot.lastBid.bidderId === uid ? (
-                    <h1 className="holder">{t("informationd")}</h1>
+                    <h1 className="holder">{t("Informations")}</h1>
                   ) : (
                     <h1>{t("Auction.Bid")}</h1>
                   )}
@@ -125,11 +125,11 @@ function LotCard(props) {
               {when === "passed" && (
                 <div className="open">
                   {isEmpty(lot.lastBid) ? (
-                    <h1>{t("informationd")}</h1>
+                    <h1>{t("Informations")}</h1>
                   ) : lot.lastBid.bidderId === uid ? (
                     <h1 className="you-won">{t("Auction.Won")}</h1>
                   ) : (
-                    <h1>{t("informationd")}</h1>
+                    <h1>{t("Informations")}</h1>
                   )}
                 </div>
               )}
