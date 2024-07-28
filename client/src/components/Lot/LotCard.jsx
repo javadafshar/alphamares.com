@@ -87,14 +87,15 @@ function LotCard(props) {
                 {t(/* "Lot."  */ lot.sexe)}
               </h2>{" "}
               <hr />
-              <p className="lot-title">
+              <h2 className="lot-title">
                 {i18n.language === "fr-FR" ? lot.title : lot.titleEN}
-              </p>
+              </h2>
               <hr />
-              <p className="vs">
-                {lot.pedigree.gen1.father} <span className="xLot">X</span>{" "}
-                {lot.pedigree.gen2.GFMaternal}
-              </p>
+              <div className="vs">
+                <p>{lot.pedigree.gen1.father}</p>
+                <span className="xLot">X</span>{" "}
+                <p>{lot.pedigree.gen2.GFMaternal}</p>
+              </div>
               <br />
               {/*  {when === "now" && (
                 <div className="chrono-price">
