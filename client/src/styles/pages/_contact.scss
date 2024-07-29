@@ -55,8 +55,10 @@
       }
 
       p {
-        font-size: calc(0.5rem + 1vw);
-        line-height: calc(0.5rem + 1vw);
+        font-size: calc(0.8rem + 1vw);
+        line-height: calc(0.9rem + 1vw);
+        letter-spacing : 2px;
+        text-align: justify;
 
         @media screen and(max-width: $size-mobile) {
           font-size: calc(1rem + 1vw);

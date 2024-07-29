@@ -298,6 +298,7 @@ export function BidPanel(props) {
               <Chrono start={lot.start} end={lot.end} />
             </strong>
           </h2>
+
           <div className="terms-container">
             <input
               type="checkbox"
@@ -430,7 +431,7 @@ export function BidPanel(props) {
           style={{
             color: "#686e7c",
             fontSize: "1.5rem",
-            marginBottom: "10px",
+            /*      marginBottom: "10px", */
             textAlign: "center",
           }}
         >
@@ -441,6 +442,7 @@ export function BidPanel(props) {
             fontSize: "1.5rem",
             fontWeight: "bold",
             textAlign: "center",
+            color: "##0d0f17",
           }}
         >
           +33 6 33 34 66 54
@@ -451,6 +453,8 @@ export function BidPanel(props) {
           fontSize: "1.5rem",
           fontWeight: "bold",
           textAlign: "center",
+          color: "#efc16d",
+          marginTop: "-10px",
         }}
       >
         {t("Lot.Panel.CallOrWhatsapp")}

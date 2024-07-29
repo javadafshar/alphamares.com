@@ -147,7 +147,8 @@
         justify-content: center;
         text-align: center;
         padding: 7% 5%;
-
+        font-family: Arapey !important;
+        min-width: 50%;
         .title-auction-card {
           font-size: calc(0.8rem + 1vw);
           line-height: calc(2rem + 1vw);
@@ -169,6 +170,7 @@
           text-align: center;
           font-size: calc(0.6rem + 1vw);
           margin-bottom: 1vh;
+          font-family: Arapey !important;
 
           @media screen and(max-width: $size-mobile) {
             font-size: calc(0.8rem + 1vh);
@@ -192,6 +194,9 @@
       }
       .h3t {
         font-weight: bold;
+      }
+      .arapey-font {
+        font-family: "Arapey" !important;
       }
       .hr2 {
         margin: 2vh 0;

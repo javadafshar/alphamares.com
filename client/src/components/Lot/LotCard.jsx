@@ -126,11 +126,11 @@ function LotCard(props) {
               {when === "passed" && (
                 <div className="open">
                   {isEmpty(lot.lastBid) ? (
-                    <h1>{t("Informations")}</h1>
+                    <h1>{t("Information")}</h1>
                   ) : lot.lastBid.bidderId === uid ? (
                     <h1 className="you-won">{t("Auction.Won")}</h1>
                   ) : (
-                    <h1>{t("Informations")}</h1>
+                    <h1>{t("Information")}</h1>
                   )}
                 </div>
               )}

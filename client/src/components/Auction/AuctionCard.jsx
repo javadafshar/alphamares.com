@@ -18,7 +18,7 @@ export default function AuctionCard({ auction }) {
       return () => clearInterval(interval);
     }
   }, [auction]);
-
+  console.log("info", auction.Data);
   return (
     <div className="card">
       {when === "now" && (
@@ -53,35 +53,48 @@ export default function AuctionCard({ auction }) {
               src={`${process.env.REACT_APP_API_URL}${auction.picture}`}
               alt="Auction"
             />
-            <Typography variant="h6" component="p">
+            <Typography
+              variant="h6"
+              component="p"
+              style={{ fontFamily: "Arapey" }}
+            >
               {i18n.language === "fr-FR" ? auction.title : auction.titleEN}
             </Typography>
           </CardMedia>
-          <CardContent sx={{ paddingBottom: "0!important", padding: 0 }}>
+          <CardContent
+            sx={{
+              paddingBottom: "0!important",
+              padding: 0,
+              fontFamily: "Arapey",
+            }}
+          >
             <div className="content-container">
-              <Typography gutterBottom variant="body1" component="div">
-                {moment(auction.start).format("L")} -{" "}
-                {moment(auction.end).format("L")}
-              </Typography>
+              {auction.saleType !== "private_sale" ? (
+                <Typography gutterBottom variant="body1" component="div">
+                  {moment(auction.start).format("L")} -{" "}
+                  {moment(auction.end).format("L")}
+                </Typography>
+              ) : null}
+
               <hr className="hr2" />
               {auction.saleType === "private_sale" ? (
                 <Typography>{auction.subtitle}</Typography>
               ) : (
                 <Typography gutterBottom variant="h6" component="div">
                   {when === "now" && (
-                    <div>
+                    <div className="arapey-font">
                       {t("Auction-Card.End-In")}{" "}
                       <Chrono start={auction.start} end={auction.end} />
                     </div>
                   )}
                   {when === "coming" && (
-                    <div>
+                    <div className="arapey-font">
                       {t("Auction-Card.In")}{" "}
                       <Chrono start={auction.start} end={auction.end} />
                     </div>
                   )}
                   {when === "passed" && (
-                    <div>
+                    <div className="arapey-font">
                       {t("Auction-Card.Closed")}{" "}
                       {moment(auction.end).format("L")}
                     </div>

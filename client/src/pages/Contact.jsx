@@ -20,8 +20,9 @@ const Contact = () => {
             <br />
             <div className="details">
               <img src="./img/icons/phone.svg" alt="icon-phone" width="80vw" />
-              <a href="tel:0633346654">+33 6 33 34 66 54  <h3 className="Owner">Benoist Gicquel</h3></a>
+              <a href="tel:0633346654">+33 6 33 34 66 54 </a>
             </div>
+            
             <br />
             <h2>{t("Contact.Write")}</h2>
             <br />

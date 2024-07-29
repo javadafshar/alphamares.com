@@ -289,6 +289,7 @@
           align-items: center;
           justify-content: center;
           margin: auto;
+
           input {
             width: 1.2vw;
             height: 1.2vw;
@@ -446,6 +447,7 @@
 
         .row {
           display: flex;
+          text-align: left;
 
           .col {
             margin-top: auto;
@@ -457,15 +459,18 @@
 
         hr {
           background-color: $color-1;
+          //width: 50%;
+          color: rgba(239, 193, 109, 0.75);
+          /*
           background: linear-gradient(
             to right,
             rgba(239, 193, 109, 0),
             rgba(239, 193, 109, 0.75),
             rgba(239, 193, 109, 0)
           );
+          */
           width: 100%;
-          text-align: center;
-          height: 3px;
+          height: 0.5px;
           border: 0;
           margin: 0;
         }
