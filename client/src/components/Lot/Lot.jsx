@@ -426,7 +426,10 @@ export function BidPanel(props) {
     </div>
   ) : (
     <>
-      <div className="terms-container">
+      <div
+        className="terms-container"
+        style={{ margin: "5rem 1rem 1rem 3rem" }}
+      >
         <p
           style={{
             color: "#686e7c",
