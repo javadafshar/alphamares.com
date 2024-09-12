@@ -76,7 +76,7 @@ export default function Slider(props) {
           ) : (
             <img
               key={picture}
-              src={`${process.env.REACT_APP_API_URL}uploads/${picture}`}
+              src={`${process.env.REACT_APP_API_URL}${picture}`}
               alt="Lot"
             />
           );

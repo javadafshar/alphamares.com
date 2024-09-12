@@ -45,12 +45,12 @@ function LotCard(props) {
               <CardMedia>
                 <div className="split-image-container">
                   <img
-                    src={`${process.env.REACT_APP_API_URL}uploads/${lot.pictureFather}`}
+                    src={`${process.env.REACT_APP_API_URL}${lot.pictureFather}`}
                     alt="Father"
                     className="left"
                   />
                   <img
-                    src={`${process.env.REACT_APP_API_URL}uploads/${lot.pictureMother}`}
+                    src={`${process.env.REACT_APP_API_URL}${lot.pictureMother}`}
                     alt="Mother"
                     className="right"
                   />
@@ -63,7 +63,7 @@ function LotCard(props) {
               <CardMedia>
                 <div>
                   <img
-                    src={`${process.env.REACT_APP_API_URL}uploads/${lot.pictures[0]}`}
+                    src={`${process.env.REACT_APP_API_URL}${lot.pictures[0]}`}
                     alt="Lot"
                   />
                 </div>

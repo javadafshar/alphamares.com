@@ -43,7 +43,7 @@ module.exports.createAuction = async (req, res) => {
     }
 
     if (req.file) {
-      auctionData.picture = req.file.path; // Adjust based on your file handling setup
+      auctionData.picture = `auctionPictures/${req.file.filename}`; // Adjust the path here
     }
 
     const newAuction = new AuctionModel(auctionData);

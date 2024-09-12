@@ -44,6 +44,25 @@
     width: 50%;
     margin-block: 8vw;
     margin-top: -10px;
+    /* Small devices (mobile phones, portrait tablets) */
+    @media only screen and (max-width: 600px) {
+      margin-top: 15%;
+    }
+
+    /* Medium devices (landscape tablets, small desktops) */
+    @media only screen and (min-width: 601px) and (max-width: 992px) {
+      /* Styles for medium screens */
+    }
+
+    /* Large devices (desktops, large tablets) */
+    @media only screen and (min-width: 820px) and (max-width: 1200px) {
+      margin-top: 7%;
+    }
+
+    /* Extra large devices (large desktops, 4K screens) */
+    @media only screen and (min-width: 1201px) {
+      /* Styles for extra-large screens */
+    }
   }
   .hrupbtn {
     width: 50%;
@@ -74,7 +93,7 @@
 
   h3 {
     font-size: calc(0.5rem + 2vw);
-    line-height: calc(0.5rem + 2vw);
+    line-height: calc(0.5rem + 0.8vw);
     margin: 3vh;
 
     @media screen and(max-width: $size-mobile) {

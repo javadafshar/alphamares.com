@@ -27,7 +27,7 @@ export default function PresentedAuction(props) {
 
   return (
     <div className="presented-auction">
-      {isNotAuction && <h1 className="title">Vente à l’amiable</h1>}
+      {isNotAuction && <h1 className="title">{t("Home.Private-Sale")}</h1>}
       {!isNotAuction && when === "coming" && (
         <h1 className="title">{t("Home.Presented-Auction.To-come")}</h1>
       )}

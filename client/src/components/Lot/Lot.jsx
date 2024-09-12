@@ -432,7 +432,7 @@ export function BidPanel(props) {
       >
         <p
           style={{
-            color: "#686e7c",
+            color: "#2d374d",
             fontSize: "1.5rem",
             /*      marginBottom: "10px", */
             textAlign: "center",
