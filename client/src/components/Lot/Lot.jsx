@@ -102,11 +102,13 @@ function Pedigree(props) {
             <hr />
             <h4>{lot.pedigree.gen2.GMPaternal}</h4>
           </div>
-          <div className="col">
+          <div className="col" id="col3">
             <h4>{lot.pedigree.gen3.GGFPF}</h4>
             <hr />
             <h4>{lot.pedigree.gen3.GGMPF}</h4>
-            <hr />
+            <div>
+              <hr className="hrmid" />
+            </div>
             <h4>{lot.pedigree.gen3.GGFMF}</h4>
             <hr />
             <h4>{lot.pedigree.gen3.GGMMF}</h4>

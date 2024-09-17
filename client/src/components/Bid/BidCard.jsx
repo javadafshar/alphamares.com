@@ -20,7 +20,7 @@ const fetchData = async (setLots, setBids) => {
   }
 };
 
-export default function BidCard(props) {
+const BidCard = (props) => {
   const loggedInUserId = useSelector((state) => state.userReducer._id);
   const [userBids, setUserBids] = useState([]);
   const [lots, setLots] = useState([]);
@@ -173,7 +173,10 @@ export default function BidCard(props) {
             </thead>
             <tbody>
               {lots
-                .filter((lot) => !lot.closed) // Filter out closed lots
+                .filter(
+                  (lot) =>
+                    !lot.closed && moment(lot.start).isBefore(currentTime)
+                ) // Filter out closed lots and show only started auctions
                 .sort((a, b) => a.number - b.number) // Sort by lot number
                 .map((lot) => {
                   const lotBids = bids.filter((bid) => bid.lotId === lot._id);
@@ -192,6 +195,42 @@ export default function BidCard(props) {
                       : null;
 
                   const isAuctionEnded = moment(lot.end).isBefore(currentTime);
+
+                  // Determine bid status message based on auction status and user's bid
+                  let bidStatusMessage = "";
+                  if (!isAuctionEnded) {
+                    if (userTopBid === topBidAmount) {
+                      bidStatusMessage =
+                        i18next.language === "fr-FR"
+                          ? "vous tenez l’enchère"
+                          : "You are the highest bidder";
+                    } else {
+                      console.log("Entering else block for ongoing auction");
+                      bidStatusMessage =
+                        i18next.language === "fr-FR"
+                          ? "vous ne tenez plus l’enchère"
+                          : "You are no longer the highest bidder";
+                    }
+                  } else {
+                    if (userTopBid === topBidAmount) {
+                      bidStatusMessage =
+                        i18next.language === "fr-FR"
+                          ? "vous avez gagné"
+                          : "You won";
+                    } else {
+                      bidStatusMessage =
+                        i18next.language === "fr-FR"
+                          ? "vous avez perdu"
+                          : "You lost";
+                    }
+                  }
+
+                  console.log("Final bidStatusMessage:", bidStatusMessage);
+
+                  // Display bid status message only if user has placed a bid
+                  const showBidStatus =
+                    userTopBid !== null &&
+                    (isAuctionEnded || userTopBid === topBidAmount);
 
                   return (
                     <React.Fragment key={lot._id}>
@@ -266,46 +305,30 @@ export default function BidCard(props) {
                             <span>
                               {formatNumber(userTopBid)} €
                               {userTopBid === topBidAmount ? (
-                                <>
-                                  <span>&nbsp;&nbsp;&nbsp;</span>
-                                </>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
                               ) : (
-                                <>
-                                  <span>&nbsp;&nbsp;&nbsp;</span>
-                                </>
+                                <span>&nbsp;&nbsp;&nbsp;</span>
                               )}
                             </span>
                           ) : (
                             "N/A"
                           )}
                           <br />
-                          <span
-                            style={{
-                              color: isAuctionEnded
-                                ? userTopBid === topBidAmount
+                          {showBidStatus && (
+                            <span
+                              style={{
+                                color: isAuctionEnded
+                                  ? userTopBid === topBidAmount
+                                    ? "green"
+                                    : "red"
+                                  : userTopBid === topBidAmount
                                   ? "green"
-                                  : "red"
-                                : userTopBid === topBidAmount
-                                ? "green"
-                                : "red",
-                            }}
-                          >
-                            {isAuctionEnded
-                              ? userTopBid === topBidAmount
-                                ? i18next.language === "fr-FR"
-                                  ? "vous avez gagné"
-                                  : "You won"
-                                : i18next.language === "fr-FR"
-                                ? "vous avez perdu"
-                                : "You lost"
-                              : userTopBid === topBidAmount
-                              ? i18next.language === "fr-FR"
-                                ? "vous tenez l’enchère"
-                                : "You are the highest bidder"
-                              : i18next.language === "fr-FR"
-                              ? "vous ne tenez plus l’enchère"
-                              : "You are no longer the highest bidder"}
-                          </span>
+                                  : "red",
+                              }}
+                            >
+                              {bidStatusMessage}
+                            </span>
+                          )}
                         </td>
                         <td
                           style={{
@@ -344,4 +367,6 @@ export default function BidCard(props) {
       </>
     </div>
   );
-}
+};
+
+export default BidCard;

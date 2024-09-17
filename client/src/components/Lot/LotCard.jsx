@@ -87,9 +87,9 @@ function LotCard(props) {
                 {t(/* "Lot."  */ lot.sexe)}
               </h2>{" "}
               <hr />
-              <h2 className="lot-title">
+              <p className="lot-title">
                 {i18n.language === "fr-FR" ? lot.title : lot.titleEN}
-              </h2>
+              </p>
               <hr />
               <div className="vs">
                 <p>{lot.pedigree.gen1.father}</p>
